@@ -18,8 +18,8 @@ import colors from "../../constants/colors";
 const KeeperDetailsScreen = (props) => {
     const dispatch = useDispatch();
     const [isFetching, setIsFetching] = useState(false);
-    const [error, setError] = useState();
     const keeperId = props.route.params.keeperId;
+
     const keeper = useSelector((state) =>
         state.Keeps.documents.find((keep) => keep.id === keeperId)
     );
@@ -27,11 +27,15 @@ const KeeperDetailsScreen = (props) => {
     const deleteDoc = async () => {
         try {
             setIsFetching(true);
-            await dispatch(keeperActions.deleteDocument(keeper.id));
+            await dispatch(keeperActions.deleteDocumen(keeper.id));
             props.navigation.goBack();
         } catch (error) {
             setIsFetching(false);
-            setError(error);
+            Alert.alert(
+                "Something went wrong",
+                "There might be some issue. Please try again after sometime",
+                [{ text: "Okay" }]
+            );
         }
     };
 

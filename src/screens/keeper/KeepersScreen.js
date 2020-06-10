@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import {
     View,
-    Text,
     Platform,
     FlatList,
     ActivityIndicator,
@@ -14,6 +13,7 @@ import * as KeeperActions from "../../redux/actions/KeeperActions";
 import KeeperItem from "../../components/Keeper/KeeperItem";
 import CustomHeaderButton from "../../components/UI/CustomHeaderButton";
 import colors from "../../constants/colors";
+import ErrorScreen from "../../components/UI/ErrorScreen";
 
 const KeepersScreen = (props) => {
     const [isFetching, setIsFetching] = useState(false);
@@ -68,11 +68,7 @@ const KeepersScreen = (props) => {
     }
 
     if (error) {
-        return (
-            <View style={styles.screen}>
-                <Text>{error}</Text>
-            </View>
-        );
+        return <ErrorScreen />;
     }
 
     const selectHandler = (id) => {
