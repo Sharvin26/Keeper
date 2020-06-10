@@ -1,16 +1,39 @@
 import React from "react";
-import { StyleSheet, View, KeyboardAvoidingView } from "react-native";
+import {
+    StyleSheet,
+    View,
+    KeyboardAvoidingView,
+    ScrollView,
+    Alert,
+} from "react-native";
+import { useDispatch } from "react-redux";
 import { Formik } from "formik";
+
+import * as keeperActions from "../../redux/actions/KeeperActions";
 import CustomTextInput from "../../components/UI/CustomTextInput";
 import CustomButton from "../../components/UI/CustomButton";
-import { ScrollView } from "react-native-gesture-handler";
 import CustomImagePicker from "../../components/Keeper/CustomImagePicker";
 
-const KeeperAddScreen = () => {
+const KeeperManageScreen = (props) => {
+    const dispatch = useDispatch();
     const initialValues = { title: "", description: "", image: "" };
 
-    const onSubmit = (values) => {
-        console.log(values);
+    const onSubmit = async (values) => {
+        try {
+            await dispatch(
+                keeperActions.addDocument(
+                    values.title,
+                    initialValues.image,
+                    new Date().toISOString(),
+                    values.description
+                )
+            );
+            props.navigation.goBack();
+        } catch (error) {
+            Alert.alert("Error", "Something went wrong please try again", [
+                { text: "Okay" },
+            ]);
+        }
     };
 
     const onImageTaken = (image) => {
@@ -53,7 +76,7 @@ const KeeperAddScreen = () => {
     );
 };
 
-export default KeeperAddScreen;
+export default KeeperManageScreen;
 
 const styles = StyleSheet.create({
     container: {
