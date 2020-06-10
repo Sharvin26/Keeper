@@ -1,8 +1,17 @@
 import React, { useState } from "react";
+import { Provider } from "react-redux";
+
 import * as Font from "expo-font";
 import { AppLoading } from "expo";
 
+import store from "./src/redux/store";
 import AppNavigator from "./src/navigation/AppNavigator";
+import { init } from "./src/helpers/db";
+
+//To Handle the errors;
+init()
+    .then(() => {})
+    .catch(() => {});
 
 const fetchFonts = () => {
     return Font.loadAsync({
@@ -25,7 +34,11 @@ const App = () => {
         );
     }
 
-    return <AppNavigator />;
+    return (
+        <Provider store={store}>
+            <AppNavigator />
+        </Provider>
+    );
 };
 
 export default App;

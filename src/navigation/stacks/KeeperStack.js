@@ -1,11 +1,14 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 
+import { defaultOptions } from "./defaultOptions";
 import KeepersScreen, {
     screenOptions as keepersScreenOptions,
 } from "../../screens/keeper/KeepersScreen";
-import KeeperAddScreen from "../../screens/keeper/KeeperAddScreen";
-import { defaultOptions } from "./defaultOptions";
+import KeeperDetailsScreen, {
+    screenOptions as KeeperScreenOption,
+} from "../../screens/keeper/KeeperDetailsScreen";
+import KeeperManageScreen from "../../screens/keeper/KeeperManageScreen";
 import KeeperSearchScreen from "../../screens/keeper/KeeperSearchScreen";
 
 const KeeperStackNavigator = createStackNavigator();
@@ -19,8 +22,13 @@ const KeeperStack = () => {
                 options={keepersScreenOptions}
             />
             <KeeperStackNavigator.Screen
+                name="KeeperDetail"
+                component={KeeperDetailsScreen}
+                options={KeeperScreenOption}
+            />
+            <KeeperStackNavigator.Screen
                 name="AddKeeper"
-                component={KeeperAddScreen}
+                component={KeeperManageScreen}
             />
             <KeeperStackNavigator.Screen
                 name="SearchKeeper"
