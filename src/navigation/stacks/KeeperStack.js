@@ -10,6 +10,7 @@ import KeeperDetailsScreen, {
 } from "../../screens/keeper/KeeperDetailsScreen";
 import KeeperManageScreen from "../../screens/keeper/KeeperManageScreen";
 import KeeperSearchScreen from "../../screens/keeper/KeeperSearchScreen";
+import KeeperImageScreen from "../../screens/keeper/KeeperImageScreen";
 
 const KeeperStackNavigator = createStackNavigator();
 
@@ -33,6 +34,10 @@ const KeeperStack = () => {
             <KeeperStackNavigator.Screen
                 name="SearchKeeper"
                 component={KeeperSearchScreen}
+            />
+            <KeeperStackNavigator.Screen
+                name="KeeperImage"
+                component={KeeperImageScreen}
             />
         </KeeperStackNavigator.Navigator>
     );

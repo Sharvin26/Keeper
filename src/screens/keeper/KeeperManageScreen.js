@@ -81,6 +81,7 @@ const KeeperManageScreen = (props) => {
                             <CustomImagePicker
                                 onImageTaken={onImageTaken}
                                 value={editKeeper ? editKeeper.image : null}
+                                navigate={props.navigation.navigate}
                             />
                             <CustomTextInput
                                 label="Title"
