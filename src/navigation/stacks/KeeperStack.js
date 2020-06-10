@@ -27,7 +27,7 @@ const KeeperStack = () => {
                 options={KeeperScreenOption}
             />
             <KeeperStackNavigator.Screen
-                name="AddKeeper"
+                name="ManageKeeper"
                 component={KeeperManageScreen}
             />
             <KeeperStackNavigator.Screen
