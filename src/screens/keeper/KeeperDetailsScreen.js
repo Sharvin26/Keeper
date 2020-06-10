@@ -27,7 +27,9 @@ const KeeperDetailsScreen = (props) => {
     const deleteDoc = async () => {
         try {
             setIsFetching(true);
-            await dispatch(keeperActions.deleteDocument(keeper.id));
+            await dispatch(
+                keeperActions.deleteDocument(keeper.id, keeper.image)
+            );
             props.navigation.goBack();
         } catch (error) {
             setIsFetching(false);
