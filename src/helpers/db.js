@@ -55,3 +55,39 @@ export const insertDocument = (title, image, date, description) => {
     });
     return promise;
 };
+
+export const updateDocument = (id, title, image, date, description) => {
+    const promise = new Promise((resolve, reject) => {
+        db.transaction((tx) => {
+            tx.executeSql(
+                "UPDATE keepers SET title=?, image=?, date=?, description=? where id=?",
+                [title, image, date, description, id],
+                (_, result) => {
+                    resolve(result);
+                },
+                (_, error) => {
+                    reject(error);
+                }
+            );
+        });
+    });
+    return promise;
+};
+
+export const removeDocument = (id) => {
+    const promise = new Promise((resolve, reject) => {
+        db.transaction((tx) => {
+            tx.executeSql(
+                "DELETE FROM keepers WHERE id=?",
+                [id],
+                (_, result) => {
+                    resolve(result);
+                },
+                (_, error) => {
+                    reject(error);
+                }
+            );
+        });
+    });
+    return promise;
+};

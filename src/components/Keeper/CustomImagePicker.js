@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, Alert, Image } from "react-native";
 import CustomButton from "../../components/UI/CustomButton";
 import * as ImagePicker from "expo-image-picker";
@@ -48,10 +48,18 @@ const CustomImagePicker = (props) => {
     return (
         <View>
             <View style={styles.imageContainer}>
-                {!pickedImage ? (
+                {!pickedImage && !props.value ? (
                     <Text>No Image added yet</Text>
                 ) : (
-                    <Image style={styles.image} source={{ uri: pickedImage }} />
+                    <Image
+                        style={styles.image}
+                        source={{
+                            uri:
+                                props.value && !pickedImage
+                                    ? props.value
+                                    : pickedImage,
+                        }}
+                    />
                 )}
             </View>
             <View style={styles.buttonContainer}>

@@ -1,16 +1,96 @@
-import React from "react";
-import { useSelector } from "react-redux";
-import { StyleSheet, Text, View, ScrollView, Image } from "react-native";
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import {
+    StyleSheet,
+    Text,
+    View,
+    ScrollView,
+    Image,
+    Alert,
+    ActivityIndicator,
+} from "react-native";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 
+import * as keeperActions from "../../redux/actions/KeeperActions";
 import CustomHeaderButton from "../../components/UI/CustomHeaderButton";
 import colors from "../../constants/colors";
 
 const KeeperDetailsScreen = (props) => {
+    const dispatch = useDispatch();
+    const [isFetching, setIsFetching] = useState(false);
+    const [error, setError] = useState();
     const keeperId = props.route.params.keeperId;
     const keeper = useSelector((state) =>
         state.Keeps.documents.find((keep) => keep.id === keeperId)
     );
+
+    const deleteDoc = async () => {
+        try {
+            setIsFetching(true);
+            await dispatch(keeperActions.deleteDocument(keeper.id));
+            props.navigation.goBack();
+        } catch (error) {
+            setIsFetching(false);
+            setError(error);
+        }
+    };
+
+    const deleteHandler = () => {
+        return Alert.alert(
+            "Are you sure?",
+            "The item cannot be restored after deleting. Select yes to confirm or no to cancel",
+            [
+                { text: "No", style: "cancel" },
+                {
+                    text: "Yes",
+                    onPress: () => deleteDoc(),
+                    style: "destructive",
+                },
+            ]
+        );
+    };
+
+    const editHandler = () => {
+        props.navigation.navigate("ManageKeeper", {
+            id: keeper.id,
+        });
+    };
+
+    useEffect(() => {
+        props.navigation.setOptions({
+            headerRight: () => (
+                <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+                    <Item
+                        title="Edit"
+                        iconName={
+                            Platform.OS === "android"
+                                ? "md-color-wand"
+                                : "ios-color-wand"
+                        }
+                        onPress={editHandler}
+                    />
+                    <Item
+                        title="Delete"
+                        iconName={
+                            Platform.OS === "android"
+                                ? "md-remove-circle"
+                                : "ios-remove-circle"
+                        }
+                        onPress={deleteHandler}
+                    />
+                </HeaderButtons>
+            ),
+        });
+    }, [deleteHandler]);
+
+    if (isFetching) {
+        return (
+            <View style={styles.loadingScreen}>
+                <ActivityIndicator size="large" color={colors.primary} />
+            </View>
+        );
+    }
+
     return (
         <ScrollView style={styles.container}>
             <View style={styles.textContainer}>
@@ -29,6 +109,11 @@ const KeeperDetailsScreen = (props) => {
 export default KeeperDetailsScreen;
 
 const styles = StyleSheet.create({
+    loadingScreen: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+    },
     container: {
         marginHorizontal: 20,
     },
@@ -61,27 +146,5 @@ const styles = StyleSheet.create({
 export const screenOptions = () => {
     return {
         headerTitle: "Keeper",
-        headerRight: () => (
-            <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-                <Item
-                    title="Add"
-                    iconName={
-                        Platform.OS === "android"
-                            ? "md-color-wand"
-                            : "ios-color-wand"
-                    }
-                    onPress={() => {}}
-                />
-                <Item
-                    title="Add"
-                    iconName={
-                        Platform.OS === "android"
-                            ? "md-remove-circle"
-                            : "ios-remove-circle"
-                    }
-                    onPress={() => {}}
-                />
-            </HeaderButtons>
-        ),
     };
 };

@@ -34,6 +34,17 @@ const KeepersScreen = (props) => {
         setIsRefreshing(false);
     }, [dispatch]);
 
+    const fetchData = useCallback(async () => {
+        setIsFetching(true);
+        try {
+            await dispatch(KeeperActions.getDocuments());
+            setIsFetching(false);
+        } catch (error) {
+            setIsFetching(false);
+            setError(error);
+        }
+    }, [dispatch]);
+
     useEffect(() => {
         const unsubscribe = props.navigation.addListener(
             "focus",
@@ -45,16 +56,8 @@ const KeepersScreen = (props) => {
     }, [dispatch]);
 
     useEffect(() => {
-        setIsFetching(true);
-        loadDocuments()
-            .then(() => {
-                setIsFetching(false);
-            })
-            .catch((error) => {
-                setIsFetching(false);
-                setError(error);
-            });
-    }, [loadDocuments]);
+        fetchData();
+    }, [fetchData]);
 
     if (isFetching) {
         return (
@@ -89,7 +92,7 @@ const KeepersScreen = (props) => {
                 <KeeperItem
                     image={itemData.item.image}
                     title={itemData.item.title}
-                    description={itemData.item.description}
+                    date={itemData.item.date}
                     onSelect={selectHandler.bind(this, itemData.item.id)}
                 />
             )}
@@ -119,7 +122,7 @@ export const screenOptions = (navData) => {
                             ? "md-add-circle"
                             : "ios-add-circle"
                     }
-                    onPress={() => navData.navigation.navigate("AddKeeper")}
+                    onPress={() => navData.navigation.navigate("ManageKeeper")}
                 />
                 <Item
                     title="Search"

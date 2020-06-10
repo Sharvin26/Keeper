@@ -6,7 +6,7 @@ import {
     ScrollView,
     Alert,
 } from "react-native";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Formik } from "formik";
 
 import * as keeperActions from "../../redux/actions/KeeperActions";
@@ -16,18 +16,44 @@ import CustomImagePicker from "../../components/Keeper/CustomImagePicker";
 
 const KeeperManageScreen = (props) => {
     const dispatch = useDispatch();
-    const initialValues = { title: "", description: "", image: "" };
+    const keeperId = props.route.params ? props.route.params.id : null;
+    const editKeeper = useSelector((state) =>
+        state.Keeps.documents.find((doc) => doc.id === keeperId)
+    );
+    const initialValues = {
+        title: editKeeper ? editKeeper.title : "",
+        description: editKeeper ? editKeeper.description : "",
+        image: editKeeper ? editKeeper.image : "",
+    };
 
     const onSubmit = async (values) => {
         try {
-            await dispatch(
-                keeperActions.addDocument(
-                    values.title,
-                    initialValues.image,
-                    new Date().toISOString(),
-                    values.description
-                )
-            );
+            if (keeperId) {
+                let isImageChanged = false;
+
+                if (values.image !== editKeeper.image) {
+                    isImageChanged = true;
+                }
+                await dispatch(
+                    keeperActions.editDocument(
+                        keeperId,
+                        values.title,
+                        values.image,
+                        new Date().toISOString(),
+                        values.description,
+                        isImageChanged
+                    )
+                );
+            } else {
+                await dispatch(
+                    keeperActions.addDocument(
+                        values.title,
+                        initialValues.image,
+                        new Date().toISOString(),
+                        values.description
+                    )
+                );
+            }
             props.navigation.goBack();
         } catch (error) {
             Alert.alert("Error", "Something went wrong please try again", [
@@ -52,20 +78,24 @@ const KeeperManageScreen = (props) => {
                 <Formik initialValues={initialValues} onSubmit={onSubmit}>
                     {({ handleChange, handleSubmit, values }) => (
                         <View>
-                            <CustomImagePicker onImageTaken={onImageTaken} />
+                            <CustomImagePicker
+                                onImageTaken={onImageTaken}
+                                value={editKeeper ? editKeeper.image : null}
+                            />
                             <CustomTextInput
                                 label="Title"
                                 onChangeText={handleChange("title")}
                                 value={values.title}
                             />
                             <CustomTextInput
+                                multiline
                                 label="Description"
                                 onChangeText={handleChange("description")}
                                 value={values.description}
                             />
                             <CustomButton
                                 style={styles.submitButton}
-                                title="Submit"
+                                title={editKeeper ? "Update" : "Submit"}
                                 onPress={handleSubmit}
                             />
                         </View>
