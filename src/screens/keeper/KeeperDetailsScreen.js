@@ -14,6 +14,7 @@ import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import * as keeperActions from "../../redux/actions/KeeperActions";
 import CustomHeaderButton from "../../components/UI/CustomHeaderButton";
 import colors from "../../constants/colors";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 const KeeperDetailsScreen = (props) => {
     const dispatch = useDispatch();
@@ -27,7 +28,9 @@ const KeeperDetailsScreen = (props) => {
     const deleteDoc = async () => {
         try {
             setIsFetching(true);
-            await dispatch(keeperActions.deleteDocument(keeper.id));
+            await dispatch(
+                keeperActions.deleteDocument(keeper.id, keeper.image)
+            );
             props.navigation.goBack();
         } catch (error) {
             setIsFetching(false);
@@ -76,9 +79,7 @@ const KeeperDetailsScreen = (props) => {
                     <Item
                         title="Delete"
                         iconName={
-                            Platform.OS === "android"
-                                ? "md-remove-circle"
-                                : "ios-remove-circle"
+                            Platform.OS === "android" ? "md-trash" : "ios-trash"
                         }
                         onPress={deleteHandler}
                     />
@@ -100,9 +101,23 @@ const KeeperDetailsScreen = (props) => {
             <View style={styles.textContainer}>
                 <Text style={styles.text}>{keeper.title}</Text>
             </View>
-            <View style={styles.imageContainer}>
-                <Image source={{ uri: keeper.image }} style={styles.image} />
-            </View>
+            <TouchableOpacity
+                onPress={() =>
+                    props.navigation.navigate("KeeperImage", {
+                        image: keeper.image,
+                    })
+                }
+            >
+                <View style={styles.imageContainer}>
+                    <Image
+                        source={{ uri: keeper.image }}
+                        style={styles.image}
+                    />
+                </View>
+                <Text style={styles.imageTextContainer}>
+                    Click on the image to view it fully
+                </Text>
+            </TouchableOpacity>
             <View style={styles.textContainer}>
                 <Text style={styles.description}>{keeper.description}</Text>
             </View>
@@ -120,6 +135,12 @@ const styles = StyleSheet.create({
     },
     container: {
         marginHorizontal: 20,
+    },
+    imageTextContainer: {
+        textAlign: "center",
+        color: colors.activeColor,
+        paddingTop: 10,
+        fontFamily: "open-sans",
     },
     textContainer: {
         marginTop: 30,

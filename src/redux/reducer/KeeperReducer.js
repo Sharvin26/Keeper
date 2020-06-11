@@ -5,6 +5,7 @@ import {
     DELETE_DOCUMENT,
 } from "../actions/KeeperActions";
 import Keeper from "../../models/Keeper";
+import customSort from "../../helpers/customSort";
 
 const initialState = {
     documents: [],
@@ -13,9 +14,7 @@ const initialState = {
 export default (state = initialState, action) => {
     switch (action.type) {
         case GET_DOCUMENTS:
-            const docs = action.documents.sort((a, b) => {
-                return new Date(a.date) > new Date(b.date);
-            });
+            const docs = customSort(action.documents);
             return {
                 ...state,
                 documents: docs,

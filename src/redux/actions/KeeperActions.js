@@ -91,9 +91,10 @@ export const editDocument = (
     };
 };
 
-export const deleteDocument = (id) => {
+export const deleteDocument = (id, image) => {
     return async (dispatch) => {
         try {
+            await FileSystem.deleteAsync(image);
             await removeDocument(id);
             dispatch({
                 type: DELETE_DOCUMENT,

@@ -14,14 +14,45 @@ import KeeperItem from "../../components/Keeper/KeeperItem";
 import CustomHeaderButton from "../../components/UI/CustomHeaderButton";
 import colors from "../../constants/colors";
 import ErrorScreen from "../../components/UI/ErrorScreen";
+import SearchKeeper from "../../components/Keeper/SearchKeeper";
 
 const KeepersScreen = (props) => {
+    const [isSearchEnabled, setIsSearchEnabled] = useState(false);
     const [isFetching, setIsFetching] = useState(false);
     const [isRefreshing, setIsRefreshing] = useState(false);
     const [error, setError] = useState();
 
     const dispatch = useDispatch();
     const keepers = useSelector((state) => state.Keeps.documents);
+
+    useEffect(() => {
+        props.navigation.setOptions({
+            headerRight: () => (
+                <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+                    <Item
+                        title="Add"
+                        iconName={
+                            Platform.OS === "android"
+                                ? "md-add-circle-outline"
+                                : "ios-add-circle-outline"
+                        }
+                        onPress={() =>
+                            props.navigation.navigate("ManageKeeper")
+                        }
+                    />
+                    <Item
+                        title="Search"
+                        iconName={
+                            Platform.OS === "android"
+                                ? "md-search"
+                                : "ios-search"
+                        }
+                        onPress={() => setIsSearchEnabled(true)}
+                    />
+                </HeaderButtons>
+            ),
+        });
+    }, []);
 
     const loadDocuments = useCallback(async () => {
         setError(null);
@@ -72,27 +103,40 @@ const KeepersScreen = (props) => {
     }
 
     const selectHandler = (id) => {
+        if (isSearchEnabled) setIsSearchEnabled(false);
         props.navigation.navigate("KeeperDetail", {
             keeperId: id,
         });
     };
 
+    const closeSearchModal = () => {
+        setIsSearchEnabled(false);
+    };
+
     return (
-        <FlatList
-            showsVerticalScrollIndicator={false}
-            onRefresh={loadDocuments}
-            refreshing={isRefreshing}
-            data={keepers}
-            keyExtractor={(item) => item.id.toString()}
-            renderItem={(itemData) => (
-                <KeeperItem
-                    image={itemData.item.image}
-                    title={itemData.item.title}
-                    date={itemData.item.date}
-                    onSelect={selectHandler.bind(this, itemData.item.id)}
-                />
-            )}
-        />
+        <View>
+            <SearchKeeper
+                data={keepers}
+                isSearchEnabled={isSearchEnabled}
+                closeSearchModal={closeSearchModal}
+                selectHandler={selectHandler}
+            />
+            <FlatList
+                showsVerticalScrollIndicator={false}
+                onRefresh={loadDocuments}
+                refreshing={isRefreshing}
+                data={keepers}
+                keyExtractor={(item) => item.id.toString()}
+                renderItem={(itemData) => (
+                    <KeeperItem
+                        image={itemData.item.image}
+                        title={itemData.item.title}
+                        date={itemData.item.date}
+                        onSelect={selectHandler.bind(this, itemData.item.id)}
+                    />
+                )}
+            />
+        </View>
     );
 };
 
@@ -109,25 +153,5 @@ const styles = StyleSheet.create({
 export const screenOptions = (navData) => {
     return {
         headerTitle: "Keeper",
-        headerRight: () => (
-            <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-                <Item
-                    title="Add"
-                    iconName={
-                        Platform.OS === "android"
-                            ? "md-add-circle"
-                            : "ios-add-circle"
-                    }
-                    onPress={() => navData.navigation.navigate("ManageKeeper")}
-                />
-                <Item
-                    title="Search"
-                    iconName={
-                        Platform.OS === "android" ? "md-search" : "ios-search"
-                    }
-                    onPress={() => navData.navigation.navigate("SearchKeeper")}
-                />
-            </HeaderButtons>
-        ),
     };
 };
