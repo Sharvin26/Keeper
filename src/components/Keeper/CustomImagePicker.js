@@ -1,12 +1,5 @@
 import React, { useState } from "react";
-import {
-    StyleSheet,
-    Text,
-    View,
-    Alert,
-    Image,
-    TouchableOpacity,
-} from "react-native";
+import { StyleSheet, Text, View, Alert, Image } from "react-native";
 import CustomButton from "../../components/UI/CustomButton";
 import * as ImagePicker from "expo-image-picker";
 import * as Permissions from "expo-permissions";
@@ -56,34 +49,22 @@ const CustomImagePicker = (props) => {
     };
     return (
         <View>
-            <TouchableOpacity
-                onPress={() =>
-                    props.navigate("KeeperImage", {
-                        image:
-                            props.value && !pickedImage
-                                ? props.value
-                                : pickedImage,
-                    })
-                }
-                style={styles.touchableContainer}
-            >
-                <View style={styles.imageContainer}>
-                    {!pickedImage && !props.value ? (
-                        <Text>No Image added yet</Text>
-                    ) : (
-                        <Image
-                            style={styles.image}
-                            resizeMode="center"
-                            source={{
-                                uri:
-                                    props.value && !pickedImage
-                                        ? props.value
-                                        : pickedImage,
-                            }}
-                        />
-                    )}
-                </View>
-            </TouchableOpacity>
+            <View style={styles.imageContainer}>
+                {!pickedImage && !props.value ? (
+                    <Text>No Image added yet</Text>
+                ) : (
+                    <Image
+                        style={styles.image}
+                        resizeMode="center"
+                        source={{
+                            uri:
+                                props.value && !pickedImage
+                                    ? props.value
+                                    : pickedImage,
+                        }}
+                    />
+                )}
+            </View>
             <View style={styles.buttonContainer}>
                 <CustomButton
                     style={styles.button}

@@ -8,15 +8,17 @@ import {
     Image,
     Alert,
     ActivityIndicator,
+    TouchableOpacity,
 } from "react-native";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 
 import * as keeperActions from "../../redux/actions/KeeperActions";
 import CustomHeaderButton from "../../components/UI/CustomHeaderButton";
 import colors from "../../constants/colors";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import ManageKeeper from "../../components/Keeper/ManageKeeper";
 
 const KeeperDetailsScreen = (props) => {
+    const [isManageEnabled, setIsManageEnabled] = useState(false);
     const dispatch = useDispatch();
     const [isFetching, setIsFetching] = useState(false);
     const keeperId = props.route.params.keeperId;
@@ -57,11 +59,11 @@ const KeeperDetailsScreen = (props) => {
         );
     };
 
-    const editHandler = () => {
-        props.navigation.navigate("ManageKeeper", {
-            id: keeper.id,
-        });
-    };
+    // const editHandler = () => {
+    //     // props.navigation.navigate("ManageKeeper", {
+    //     //     id: keeper.id,
+    //     // });
+    // };
 
     useEffect(() => {
         props.navigation.setOptions({
@@ -74,7 +76,7 @@ const KeeperDetailsScreen = (props) => {
                                 ? "md-color-wand"
                                 : "ios-color-wand"
                         }
-                        onPress={editHandler}
+                        onPress={() => setIsManageEnabled(true)}
                     />
                     <Item
                         title="Delete"
@@ -96,32 +98,44 @@ const KeeperDetailsScreen = (props) => {
         );
     }
 
+    const closeManageModal = () => {
+        setIsManageEnabled(false);
+    };
+
     return (
-        <ScrollView style={styles.container}>
-            <View style={styles.textContainer}>
-                <Text style={styles.text}>{keeper.title}</Text>
-            </View>
-            <TouchableOpacity
-                onPress={() =>
-                    props.navigation.navigate("KeeperImage", {
-                        image: keeper.image,
-                    })
-                }
-            >
-                <View style={styles.imageContainer}>
-                    <Image
-                        source={{ uri: keeper.image }}
-                        style={styles.image}
-                    />
+        <View>
+            <ManageKeeper
+                isManageEnabled={isManageEnabled}
+                closeManageModal={closeManageModal}
+                navigate={props.navigation.navigate}
+                id={keeperId}
+            />
+            <ScrollView style={styles.container}>
+                <View style={styles.textContainer}>
+                    <Text style={styles.text}>{keeper.title}</Text>
                 </View>
-                <Text style={styles.imageTextContainer}>
-                    Click on the image to view it fully
-                </Text>
-            </TouchableOpacity>
-            <View style={styles.textContainer}>
-                <Text style={styles.description}>{keeper.description}</Text>
-            </View>
-        </ScrollView>
+                <TouchableOpacity
+                    onPress={() =>
+                        props.navigation.navigate("KeeperImage", {
+                            image: keeper.image,
+                        })
+                    }
+                >
+                    <View style={styles.imageContainer}>
+                        <Image
+                            source={{ uri: keeper.image }}
+                            style={styles.image}
+                        />
+                    </View>
+                    <Text style={styles.imageTextContainer}>
+                        Click on the image to view it fully
+                    </Text>
+                </TouchableOpacity>
+                <View style={styles.textContainer}>
+                    <Text style={styles.description}>{keeper.description}</Text>
+                </View>
+            </ScrollView>
+        </View>
     );
 };
 
