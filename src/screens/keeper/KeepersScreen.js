@@ -26,7 +26,6 @@ const KeepersScreen = (props) => {
 
     const dispatch = useDispatch();
     const keepers = useSelector((state) => state.Keeps.documents);
-
     useEffect(() => {
         props.navigation.setOptions({
             headerRight: () => (
@@ -52,7 +51,7 @@ const KeepersScreen = (props) => {
                 </HeaderButtons>
             ),
         });
-    }, []);
+    }, [setIsManageEnabled, setIsSearchEnabled]);
 
     const loadDocuments = useCallback(async () => {
         setError(null);

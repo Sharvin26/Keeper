@@ -29,7 +29,7 @@ export default (state = initialState, action) => {
             );
             return {
                 ...state,
-                documents: state.documents.concat(newDocument),
+                documents: customSort(state.documents.concat(newDocument)),
             };
         case EDIT_DOCUMENT:
             const updatedDocument = new Keeper(
@@ -44,9 +44,10 @@ export default (state = initialState, action) => {
                 (doc) => doc.id === action.document.id
             );
             allDocuments[docIndex] = updatedDocument;
+            console.log(allDocuments);
             return {
                 ...state,
-                documents: allDocuments,
+                documents: customSort(allDocuments),
             };
         case DELETE_DOCUMENT:
             return {

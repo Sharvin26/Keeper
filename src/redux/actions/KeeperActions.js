@@ -44,7 +44,7 @@ export const addDocument = (title, image, date, description) => {
                     id: dbResult.insertId,
                     title,
                     image: newPath,
-                    newDate,
+                    date: newDate,
                     description,
                 },
             });
