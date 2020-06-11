@@ -15,8 +15,10 @@ import CustomHeaderButton from "../../components/UI/CustomHeaderButton";
 import colors from "../../constants/colors";
 import ErrorScreen from "../../components/UI/ErrorScreen";
 import SearchKeeper from "../../components/Keeper/SearchKeeper";
+import ManageKeeper from "../../components/Keeper/ManageKeeper";
 
 const KeepersScreen = (props) => {
+    const [isManageEnabled, setIsManageEnabled] = useState(false);
     const [isSearchEnabled, setIsSearchEnabled] = useState(false);
     const [isFetching, setIsFetching] = useState(false);
     const [isRefreshing, setIsRefreshing] = useState(false);
@@ -36,9 +38,7 @@ const KeepersScreen = (props) => {
                                 ? "md-add-circle-outline"
                                 : "ios-add-circle-outline"
                         }
-                        onPress={() =>
-                            props.navigation.navigate("ManageKeeper")
-                        }
+                        onPress={() => setIsManageEnabled(true)}
                     />
                     <Item
                         title="Search"
@@ -113,8 +113,17 @@ const KeepersScreen = (props) => {
         setIsSearchEnabled(false);
     };
 
+    const closeManageModal = () => {
+        setIsManageEnabled(false);
+    };
+
     return (
         <View>
+            <ManageKeeper
+                isManageEnabled={isManageEnabled}
+                closeManageModal={closeManageModal}
+                navigate={props.navigation.navigate}
+            />
             <SearchKeeper
                 data={keepers}
                 isSearchEnabled={isSearchEnabled}

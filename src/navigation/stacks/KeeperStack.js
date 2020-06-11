@@ -8,9 +8,7 @@ import KeepersScreen, {
 import KeeperDetailsScreen, {
     screenOptions as KeeperScreenOption,
 } from "../../screens/keeper/KeeperDetailsScreen";
-import KeeperManageScreen from "../../screens/keeper/KeeperManageScreen";
 import KeeperImageScreen from "../../screens/keeper/KeeperImageScreen";
-
 const KeeperStackNavigator = createStackNavigator();
 
 const KeeperStack = () => {
@@ -25,10 +23,6 @@ const KeeperStack = () => {
                 name="KeeperDetail"
                 component={KeeperDetailsScreen}
                 options={KeeperScreenOption}
-            />
-            <KeeperStackNavigator.Screen
-                name="ManageKeeper"
-                component={KeeperManageScreen}
             />
             <KeeperStackNavigator.Screen
                 name="KeeperImage"

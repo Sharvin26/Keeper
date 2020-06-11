@@ -19,12 +19,12 @@ const SearchKeeper = (props) => {
                 <View style={styles.searchContainer}>
                     <Ionicons
                         name="md-arrow-back"
-                        size={30}
+                        size={28}
                         color="black"
                         onPress={props.closeSearchModal}
                         style={{
                             ...styles.icon,
-                            paddingTop: Platform.OS === "ios" ? 8 : 0,
+                            paddingTop: Platform.OS === "ios" ? 2 : 0,
                         }}
                     />
                     <TextInput
