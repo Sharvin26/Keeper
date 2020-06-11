@@ -79,9 +79,7 @@ const KeeperDetailsScreen = (props) => {
                     <Item
                         title="Delete"
                         iconName={
-                            Platform.OS === "android"
-                                ? "md-remove-circle"
-                                : "ios-remove-circle"
+                            Platform.OS === "android" ? "md-trash" : "ios-trash"
                         }
                         onPress={deleteHandler}
                     />

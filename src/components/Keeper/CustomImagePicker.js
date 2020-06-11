@@ -41,10 +41,13 @@ const CustomImagePicker = (props) => {
         if (use === "camera") {
             image = await ImagePicker.launchCameraAsync({
                 quality: 0.5,
+                mediaTypes: ImagePicker.MediaTypeOptions.Images,
+                allowsEditing: true,
             });
         } else if (use === "gallery") {
             image = await ImagePicker.launchImageLibraryAsync({
-                mediaTypes: ImagePicker.MediaTypeOptions.All,
+                quality: 0.5,
+                mediaTypes: ImagePicker.MediaTypeOptions.Images,
                 allowsEditing: true,
             });
         }
