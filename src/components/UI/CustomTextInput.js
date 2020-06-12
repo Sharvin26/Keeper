@@ -1,6 +1,8 @@
 import React from "react";
 import { StyleSheet, Text, View, TextInput } from "react-native";
 
+import colors from "../../constants/colors";
+
 const CustomTextInput = (props) => {
     return (
         <View style={styles.formContainer}>
@@ -11,6 +13,7 @@ const CustomTextInput = (props) => {
                 value={props.value}
                 style={styles.textInputContainer}
             />
+            <Text style={styles.errorText}>{props.touched && props.error}</Text>
         </View>
     );
 };
@@ -18,16 +21,21 @@ const CustomTextInput = (props) => {
 export default CustomTextInput;
 
 const styles = StyleSheet.create({
-    formContainer: {
-        paddingVertical: 10,
-    },
+    formContainer: {},
     textContainer: {
-        paddingVertical: 10,
+        paddingVertical: 5,
         fontFamily: "open-sans-bold",
     },
     textInputContainer: {
         borderBottomWidth: 1,
         borderBottomColor: "#ccc",
         paddingBottom: 5,
+    },
+    errorText: {
+        color: colors.errorColor,
+        textAlign: "center",
+        marginVertical: 10,
+        fontFamily: "open-sans-bold",
+        fontSize: 14,
     },
 });

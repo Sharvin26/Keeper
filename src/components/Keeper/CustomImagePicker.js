@@ -1,12 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
+import colors from "../../constants/colors";
 import { StyleSheet, Text, View, Alert, Image } from "react-native";
 import CustomButton from "../../components/UI/CustomButton";
 import * as ImagePicker from "expo-image-picker";
 import * as Permissions from "expo-permissions";
 
 const CustomImagePicker = (props) => {
-    const [pickedImage, setPickedImage] = useState();
-
     const verifyPermissions = async (use) => {
         let result;
         if (use === "camera") {
@@ -25,7 +24,7 @@ const CustomImagePicker = (props) => {
         return true;
     };
 
-    const takeImageHandler = async (use) => {
+    const takeImageHandler = async (handleChange, use) => {
         const hasPermission = await verifyPermissions(use);
         if (!hasPermission) {
             return;
@@ -35,46 +34,55 @@ const CustomImagePicker = (props) => {
             image = await ImagePicker.launchCameraAsync({
                 quality: 0.5,
                 mediaTypes: ImagePicker.MediaTypeOptions.Images,
-                allowsEditing: true,
+                aspect: [16, 9],
             });
         } else if (use === "gallery") {
             image = await ImagePicker.launchImageLibraryAsync({
                 quality: 0.5,
                 mediaTypes: ImagePicker.MediaTypeOptions.Images,
-                allowsEditing: true,
+                aspect: [16, 9],
             });
         }
-        setPickedImage(image.uri);
-        props.onImageTaken(image.uri);
+        if (!image.cancelled) {
+            handleChange(image.uri);
+        }
     };
     return (
         <View>
             <View style={styles.imageContainer}>
-                {!pickedImage && !props.value ? (
+                {!props.image ? (
                     <Text>No Image added yet</Text>
                 ) : (
                     <Image
                         style={styles.image}
                         resizeMode="center"
                         source={{
-                            uri:
-                                props.value && !pickedImage
-                                    ? props.value
-                                    : pickedImage,
+                            uri: props.image,
                         }}
                     />
                 )}
             </View>
+            <Text style={styles.errorText}>
+                {props.touched && props.errors}
+            </Text>
             <View style={styles.buttonContainer}>
                 <CustomButton
                     style={styles.button}
                     title="Use Gallery"
-                    onPress={takeImageHandler.bind(this, "gallery")}
+                    onPress={takeImageHandler.bind(
+                        this,
+                        props.handleChange("image"),
+                        "gallery"
+                    )}
                 />
                 <CustomButton
                     style={styles.button}
                     title="Use Camera"
-                    onPress={takeImageHandler.bind(this, "camera")}
+                    onPress={takeImageHandler.bind(
+                        this,
+                        props.handleChange("image"),
+                        "camera"
+                    )}
                 />
             </View>
         </View>
@@ -84,9 +92,6 @@ const CustomImagePicker = (props) => {
 export default CustomImagePicker;
 
 const styles = StyleSheet.create({
-    touchableContainer: {
-        flex: 1,
-    },
     imageContainer: {
         width: "100%",
         height: 200,
@@ -105,4 +110,11 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     button: { marginEnd: 10 },
+    errorText: {
+        color: colors.errorColor,
+        textAlign: "center",
+        marginVertical: 10,
+        fontFamily: "open-sans-bold",
+        fontSize: 14,
+    },
 });

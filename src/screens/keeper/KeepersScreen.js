@@ -26,6 +26,7 @@ const KeepersScreen = (props) => {
 
     const dispatch = useDispatch();
     const keepers = useSelector((state) => state.Keeps.documents);
+
     useEffect(() => {
         props.navigation.setOptions({
             headerRight: () => (

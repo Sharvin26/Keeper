@@ -9,14 +9,22 @@ import {
     KeyboardAvoidingView,
     Alert,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
 
 import { Formik } from "formik";
+import * as yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import * as keeperActions from "../../redux/actions/KeeperActions";
 
 import CustomImagePicker from "./CustomImagePicker";
 import CustomTextInput from "../UI/CustomTextInput";
+import colors from "../../constants/colors";
+import CustomIcons from "../UI/CustomIcons";
+
+const keeperScheme = yup.object({
+    title: yup.string().required().min(4),
+    description: yup.string().required().min(20),
+    image: yup.string().required(),
+});
 
 const ManageKeeper = (props) => {
     const dispatch = useDispatch();
@@ -51,7 +59,7 @@ const ManageKeeper = (props) => {
                 await dispatch(
                     keeperActions.addDocument(
                         values.title,
-                        initialValues.image,
+                        values.image,
                         new Date().toISOString(),
                         values.description
                     )
@@ -59,16 +67,22 @@ const ManageKeeper = (props) => {
             }
             props.closeManageModal();
         } catch (error) {
-            Alert.alert("Error", error.message, [{ text: "Okay" }]);
+            Alert.alert("Error", "Something went wrong please try again", [
+                { text: "Okay" },
+            ]);
         }
     };
 
-    const onImageTaken = (image) => {
-        initialValues["image"] = image;
+    const closeModal = () => {
+        props.closeManageModal();
     };
 
     return (
-        <Modal visible={props.isManageEnabled} animationType="slide">
+        <Modal
+            visible={props.isManageEnabled}
+            animationType="slide"
+            onRequestClose={closeModal}
+        >
             <SafeAreaView style={{ flex: 1, margin: 20 }}>
                 <ScrollView
                     style={styles.container}
@@ -80,63 +94,67 @@ const ManageKeeper = (props) => {
                     >
                         <Formik
                             initialValues={initialValues}
+                            validationSchema={keeperScheme}
                             onSubmit={onSubmit}
                         >
-                            {({ handleChange, handleSubmit, values }) => (
+                            {(props) => (
                                 <View>
                                     <View style={styles.searchContainer}>
-                                        <Ionicons
+                                        <CustomIcons
+                                            iconHandler={closeModal}
                                             name="md-arrow-back"
+                                            color={colors.primary}
                                             size={30}
-                                            color="black"
-                                            onPress={props.closeManageModal}
-                                            style={{
-                                                paddingTop:
-                                                    Platform.OS === "ios"
-                                                        ? 2
-                                                        : 0,
-                                            }}
                                         />
                                         <Text style={styles.headerText}>
                                             {keeperId
                                                 ? "Edit Document"
                                                 : "Add Document"}
                                         </Text>
-                                        <Ionicons
+                                        <CustomIcons
+                                            iconHandler={props.handleSubmit}
                                             name="md-save"
+                                            color={colors.primary}
                                             size={30}
-                                            color="black"
-                                            onPress={handleSubmit}
-                                            style={{
-                                                paddingTop:
-                                                    Platform.OS === "ios"
-                                                        ? 2
-                                                        : 0,
-                                            }}
+                                            styles={{ marginRight: 10 }}
                                         />
                                     </View>
                                     <View style={styles.formContainer}>
                                         <CustomImagePicker
-                                            onImageTaken={onImageTaken}
-                                            value={
-                                                editKeeper
-                                                    ? editKeeper.image
-                                                    : null
-                                            }
-                                            navigate={props.navigate}
+                                            image={props.values.image}
+                                            touched={props.touched.image}
+                                            errors={props.errors.image}
+                                            handleChange={props.handleChange.bind(
+                                                this,
+                                                "image"
+                                            )}
+                                            handleBlur={props.handleBlur.bind(
+                                                this,
+                                                "image"
+                                            )}
                                         />
                                         <CustomTextInput
                                             label="Title"
-                                            onChangeText={handleChange("title")}
-                                            value={values.title}
+                                            onChangeText={props.handleChange(
+                                                "title"
+                                            )}
+                                            value={props.values.title}
+                                            onBlur={props.handleBlur("title")}
+                                            touched={props.touched.title}
+                                            error={props.errors.title}
                                         />
                                         <CustomTextInput
                                             multiline
                                             label="Description"
-                                            onChangeText={handleChange(
+                                            onChangeText={props.handleChange(
                                                 "description"
                                             )}
-                                            value={values.description}
+                                            onBlur={props.handleBlur(
+                                                "description"
+                                            )}
+                                            value={props.values.description}
+                                            touched={props.touched.title}
+                                            error={props.errors.title}
                                         />
                                     </View>
                                 </View>

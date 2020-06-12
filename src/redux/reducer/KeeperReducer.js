@@ -44,7 +44,6 @@ export default (state = initialState, action) => {
                 (doc) => doc.id === action.document.id
             );
             allDocuments[docIndex] = updatedDocument;
-            console.log(allDocuments);
             return {
                 ...state,
                 documents: customSort(allDocuments),
