@@ -3,12 +3,15 @@ import {
     ADD_DOCUMENT,
     EDIT_DOCUMENT,
     DELETE_DOCUMENT,
+    SEARCH_DOCUMENTS,
 } from "../actions/KeeperActions";
 import Keeper from "../../models/Keeper";
 import customSort from "../../helpers/customSort";
+var _ = require("lodash");
 
 const initialState = {
     documents: [],
+    searchDocs: [],
 };
 
 export default (state = initialState, action) => {
@@ -54,6 +57,19 @@ export default (state = initialState, action) => {
                 documents: state.documents.filter(
                     (doc) => doc.id !== action.id
                 ),
+            };
+        case SEARCH_DOCUMENTS:
+            const filtered = _.filter(state.documents, (doc) =>
+                _.toLower(doc.title).includes(_.toLower(action.value))
+            );
+            let searchResult = "available";
+            if (filtered.length === 0) {
+                searchResult = "empty";
+            }
+            return {
+                ...state,
+                searchDocs: filtered,
+                searchResult,
             };
         default:
             return state;

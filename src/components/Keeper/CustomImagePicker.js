@@ -55,7 +55,6 @@ const CustomImagePicker = (props) => {
                 ) : (
                     <Image
                         style={styles.image}
-                        resizeMode="center"
                         source={{
                             uri: props.image,
                         }}

@@ -11,6 +11,7 @@ export const GET_DOCUMENTS = "GET_DOCUMENTS";
 export const ADD_DOCUMENT = "ADD_DOCUMENT";
 export const EDIT_DOCUMENT = "EDIT_DOCUMENT";
 export const DELETE_DOCUMENT = "DELETE_DOCUMENT";
+export const SEARCH_DOCUMENTS = "SEARCH_DOCUMENTS";
 
 export const getDocuments = () => {
     return async (dispatch) => {
@@ -103,5 +104,12 @@ export const deleteDocument = (id, image) => {
         } catch (error) {
             throw error;
         }
+    };
+};
+
+export const searchDocuments = (value) => {
+    return {
+        type: SEARCH_DOCUMENTS,
+        value,
     };
 };

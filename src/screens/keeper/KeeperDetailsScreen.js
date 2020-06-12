@@ -59,12 +59,6 @@ const KeeperDetailsScreen = (props) => {
         );
     };
 
-    // const editHandler = () => {
-    //     // props.navigation.navigate("ManageKeeper", {
-    //     //     id: keeper.id,
-    //     // });
-    // };
-
     useEffect(() => {
         props.navigation.setOptions({
             headerRight: () => (

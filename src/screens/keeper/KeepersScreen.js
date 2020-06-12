@@ -5,6 +5,7 @@ import {
     FlatList,
     ActivityIndicator,
     StyleSheet,
+    Text,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
@@ -90,18 +91,6 @@ const KeepersScreen = (props) => {
         fetchData();
     }, [fetchData]);
 
-    if (isFetching) {
-        return (
-            <View style={styles.screen}>
-                <ActivityIndicator size="large" color={colors.primary} />
-            </View>
-        );
-    }
-
-    if (error) {
-        return <ErrorScreen />;
-    }
-
     const selectHandler = (id) => {
         if (isSearchEnabled) setIsSearchEnabled(false);
         props.navigation.navigate("KeeperDetail", {
@@ -116,6 +105,42 @@ const KeepersScreen = (props) => {
     const closeManageModal = () => {
         setIsManageEnabled(false);
     };
+
+    if (isFetching) {
+        return (
+            <View style={styles.screen}>
+                <ActivityIndicator size="large" color={colors.primary} />
+            </View>
+        );
+    }
+
+    if (error) {
+        return <ErrorScreen />;
+    }
+
+    if (keepers.length === 0) {
+        return (
+            <View style={styles.screen}>
+                <ManageKeeper
+                    isManageEnabled={isManageEnabled}
+                    closeManageModal={closeManageModal}
+                    navigate={props.navigation.navigate}
+                />
+                <SearchKeeper
+                    data={keepers}
+                    isSearchEnabled={isSearchEnabled}
+                    closeSearchModal={closeSearchModal}
+                    selectHandler={selectHandler}
+                />
+                <Text style={styles.emptyScreenText}>
+                    Seems you haven't added any document yet.
+                </Text>
+                <Text style={styles.hintScreenText}>
+                    Hint: Add document by clicking on (+) plus icon
+                </Text>
+            </View>
+        );
+    }
 
     return (
         <View>
@@ -156,6 +181,20 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
+    },
+    emptyScreenText: {
+        fontSize: 14,
+        fontFamily: "open-sans-bold",
+        textAlign: "center",
+        paddingHorizontal: 10,
+    },
+    hintScreenText: {
+        fontSize: 14,
+        fontFamily: "open-sans-bold",
+        textAlign: "center",
+        paddingTop: 10,
+        paddingHorizontal: 10,
+        color: colors.activeColor,
     },
 });
 
