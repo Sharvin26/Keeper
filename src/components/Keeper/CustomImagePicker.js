@@ -62,9 +62,7 @@ const CustomImagePicker = (props) => {
                     />
                 )}
             </View>
-            <Text style={styles.errorText}>
-                {props.touched && props.errors}
-            </Text>
+            <Text style={styles.errorText}>{props.touched && props.error}</Text>
             <View style={styles.buttonContainer}>
                 <CustomButton
                     style={styles.button}

@@ -123,7 +123,7 @@ const ManageKeeper = (props) => {
                                         <CustomImagePicker
                                             image={props.values.image}
                                             touched={props.touched.image}
-                                            errors={props.errors.image}
+                                            error={props.errors.image}
                                             handleChange={props.handleChange.bind(
                                                 this,
                                                 "image"
@@ -153,8 +153,8 @@ const ManageKeeper = (props) => {
                                                 "description"
                                             )}
                                             value={props.values.description}
-                                            touched={props.touched.title}
-                                            error={props.errors.title}
+                                            touched={props.touched.description}
+                                            error={props.errors.description}
                                         />
                                     </View>
                                 </View>
