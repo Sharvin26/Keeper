@@ -3,6 +3,7 @@ import { Provider } from "react-redux";
 
 import * as Font from "expo-font";
 import { AppLoading } from "expo";
+import { ActionSheetProvider } from "@expo/react-native-action-sheet";
 
 import store from "./src/redux/store";
 import AppNavigator from "./src/navigation/AppNavigator";
@@ -36,7 +37,9 @@ const App = () => {
 
     return (
         <Provider store={store}>
-            <AppNavigator />
+            <ActionSheetProvider>
+                <AppNavigator />
+            </ActionSheetProvider>
         </Provider>
     );
 };

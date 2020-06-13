@@ -24,12 +24,12 @@ const styles = StyleSheet.create({
     formContainer: {},
     textContainer: {
         paddingVertical: 5,
-        fontFamily: "open-sans-bold",
     },
     textInputContainer: {
         borderBottomWidth: 1,
         borderBottomColor: "#ccc",
         paddingBottom: 5,
+        fontFamily: "open-sans-bold",
     },
     errorText: {
         color: colors.errorColor,

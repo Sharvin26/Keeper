@@ -165,10 +165,12 @@ const styles = StyleSheet.create({
         height: 200,
         borderColor: colors.primary,
         borderWidth: 1,
+        borderRadius: 15,
     },
     image: {
         width: "100%",
         height: "100%",
+        borderRadius: 15,
     },
     description: {
         fontSize: 16,

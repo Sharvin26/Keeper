@@ -1,20 +1,15 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-
-import KeeperFilterScreen from "../../screens/keeper/KeeperFilterScreen";
 import { defaultOptions } from "./defaultOptions";
+import WalletScreen from "../../screens/wallet/WalletScreen";
+const WallStackNavigator = createStackNavigator();
 
-const FilterStackNavigator = createStackNavigator();
-
-const FilterStack = () => {
+const WalletStack = () => {
     return (
-        <FilterStackNavigator.Navigator screenOptions={defaultOptions}>
-            <FilterStackNavigator.Screen
-                name="Filter"
-                component={KeeperFilterScreen}
-            />
-        </FilterStackNavigator.Navigator>
+        <WallStackNavigator.Navigator screenOptions={defaultOptions}>
+            <WallStackNavigator.Screen name="Filter" component={WalletScreen} />
+        </WallStackNavigator.Navigator>
     );
 };
 
-export default FilterStack;
+export default WalletStack;

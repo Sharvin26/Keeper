@@ -4,20 +4,22 @@ import {
     EDIT_DOCUMENT,
     DELETE_DOCUMENT,
     SEARCH_DOCUMENTS,
+    SORT_DOCUMENTS,
 } from "../actions/KeeperActions";
 import Keeper from "../../models/Keeper";
-import customSort from "../../helpers/customSort";
+import sortDocs from "../../helpers/customSort";
 var _ = require("lodash");
 
 const initialState = {
     documents: [],
     searchDocs: [],
+    sortType: "Date",
 };
 
 export default (state = initialState, action) => {
     switch (action.type) {
         case GET_DOCUMENTS:
-            const docs = customSort(action.documents);
+            const docs = sortDocs(action.documents, state.sortType);
             return {
                 ...state,
                 documents: docs,
@@ -32,7 +34,10 @@ export default (state = initialState, action) => {
             );
             return {
                 ...state,
-                documents: customSort(state.documents.concat(newDocument)),
+                documents: sortDocs(
+                    state.documents.concat(newDocument),
+                    state.sortType
+                ),
             };
         case EDIT_DOCUMENT:
             const updatedDocument = new Keeper(
@@ -49,7 +54,7 @@ export default (state = initialState, action) => {
             allDocuments[docIndex] = updatedDocument;
             return {
                 ...state,
-                documents: customSort(allDocuments),
+                documents: sortDocs(allDocuments, state.sortType),
             };
         case DELETE_DOCUMENT:
             return {
@@ -70,6 +75,14 @@ export default (state = initialState, action) => {
                 ...state,
                 searchDocs: filtered,
                 searchResult,
+            };
+        case SORT_DOCUMENTS:
+            const allDocs = [...state.documents];
+            let sortedDocs = sortDocs(allDocs, action.sortType);
+            state.sortType = action.sortType;
+            return {
+                ...state,
+                documents: sortedDocs,
             };
         default:
             return state;
