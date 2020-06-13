@@ -108,8 +108,8 @@ const ManageKeeper = (props) => {
                                         />
                                         <Text style={styles.headerText}>
                                             {keeperId
-                                                ? "Edit Document"
-                                                : "Add Document"}
+                                                ? "Edit a Moment"
+                                                : "Add a Moment"}
                                         </Text>
                                         <CustomIcons
                                             iconHandler={props.handleSubmit}
@@ -145,6 +145,7 @@ const ManageKeeper = (props) => {
                                         />
                                         <CustomTextInput
                                             multiline
+                                            numberOfLines={4}
                                             label="Description"
                                             onChangeText={props.handleChange(
                                                 "description"

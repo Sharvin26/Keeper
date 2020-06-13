@@ -1,11 +1,10 @@
 import React from "react";
-
 import { createDrawerNavigator } from "@react-navigation/drawer";
 
 import AppTab from "../tab/AppTab";
-import FilterStack from "../stacks/FilterStack";
 import { defaultDrawerContentOptions } from "./defaultOptions";
 import { defaultOptions } from "../drawer/defaultOptions";
+import WalletStack from "../stacks/FilterStack";
 
 const Drawer = createDrawerNavigator();
 
@@ -18,16 +17,12 @@ const AppDrawer = () => {
             <Drawer.Screen
                 name="Home"
                 component={AppTab}
-                options={defaultOptions.bind(this, "Documents", "ios-albums")}
+                options={defaultOptions.bind(this, "Moments", "md-photos")}
             />
             <Drawer.Screen
-                name="Filter"
-                component={FilterStack}
-                options={defaultOptions.bind(
-                    this,
-                    "Filter documents",
-                    "ios-build"
-                )}
+                name="Wallet"
+                component={WalletStack}
+                options={defaultOptions.bind(this, "Wallet", "ios-wallet")}
             />
         </Drawer.Navigator>
     );

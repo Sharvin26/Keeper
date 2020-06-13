@@ -9,6 +9,9 @@ import {
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
+import { FontAwesome } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
+import { useActionSheet } from "@expo/react-native-action-sheet";
 
 import * as KeeperActions from "../../redux/actions/KeeperActions";
 import KeeperItem from "../../components/Keeper/KeeperItem";
@@ -27,11 +30,56 @@ const KeepersScreen = (props) => {
 
     const dispatch = useDispatch();
     const keepers = useSelector((state) => state.Keeps.documents);
+    const { showActionSheetWithOptions } = useActionSheet();
+
+    const onOpenActionSheet = () => {
+        const options = ["By Date", "By Title", "Cancel"];
+        const icon = (name) => <Ionicons key={name} name={name} size={24} />;
+        const fontIcon = (name) => (
+            <FontAwesome key={name} name={name} size={24} />
+        );
+        const icons = [
+            icon("md-time"),
+            fontIcon("sort-alpha-asc"),
+            icon("md-remove-circle"),
+        ];
+
+        const cancelButtonIndex = 2;
+
+        showActionSheetWithOptions(
+            {
+                options,
+                cancelButtonIndex,
+                showSeparators: true,
+                icons: icons,
+            },
+            (buttonIndex) => {
+                if (buttonIndex === 2) {
+                    return;
+                }
+                let sortType;
+                if (buttonIndex === 0) {
+                    sortType = "Date";
+                } else if (buttonIndex === 1) {
+                    sortType = "Title";
+                }
+
+                dispatch(KeeperActions.sortDocuments(sortType));
+            }
+        );
+    };
 
     useEffect(() => {
         props.navigation.setOptions({
             headerRight: () => (
                 <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+                    <Item
+                        title="Sort"
+                        iconName={
+                            Platform.OS === "android" ? "md-build" : "ios-build"
+                        }
+                        onPress={() => onOpenActionSheet()}
+                    />
                     <Item
                         title="Add"
                         iconName={
@@ -198,7 +246,7 @@ const styles = StyleSheet.create({
     },
 });
 
-export const screenOptions = (navData) => {
+export const screenOptions = () => {
     return {
         headerTitle: "Keeper",
     };
