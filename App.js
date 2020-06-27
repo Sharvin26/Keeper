@@ -8,11 +8,29 @@ import { ActionSheetProvider } from "@expo/react-native-action-sheet";
 import store from "./src/redux/store";
 import AppNavigator from "./src/navigation/AppNavigator";
 import { init } from "./src/helpers/db";
+import { initExpenditure } from "./src/helpers/expenditureDb";
+
+import { YellowBox } from "react-native";
+import _ from "lodash";
+
+YellowBox.ignoreWarnings(["componentWillReceiveProps"]);
+const _console = _.clone(console);
+console.warn = (message) => {
+    if (message.indexOf("componentWillReceiveProps") <= -1) {
+        _console.warn(message);
+    }
+};
 
 //To Handle the errors;
 init()
     .then(() => {})
-    .catch(() => {});
+    .catch((error) => {
+        console.log(error);
+    });
+
+initExpenditure()
+    .then(() => {})
+    .catch((error) => {});
 
 const fetchFonts = () => {
     return Font.loadAsync({
