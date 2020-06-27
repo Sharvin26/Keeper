@@ -1,12 +1,10 @@
-import * as SQLite from "expo-sqlite";
+import { db } from "./db";
 
-export const db = SQLite.openDatabase("Keepers.db");
-
-export const init = () => {
+export const initExpenditure = () => {
     const promise = new Promise((resolve, reject) => {
         db.transaction((tx) => {
             tx.executeSql(
-                "CREATE TABLE IF NOT EXISTS keepers(id INTEGER PRIMARY KEY NOT NULL, title TEXT NOT NULL,image TEXT NOT NULL ,date TEXT NOT NULL, description TEXT NOT NULL);",
+                "CREATE TABLE IF NOT EXISTS Expenditures(id INTEGER PRIMARY KEY NOT NULL, name TEXT NOT NULL, amount REAL NOT NULL, type TEXT NOT NULL, date TEXT NOT NULL);",
                 [],
                 () => {
                     resolve();
@@ -20,11 +18,11 @@ export const init = () => {
     return promise;
 };
 
-export const fetchDocuments = () => {
+export const fetchExpenditure = () => {
     const promise = new Promise((resolve, reject) => {
         db.transaction((tx) => {
             tx.executeSql(
-                "SELECT * FROM keepers;",
+                "SELECT * from Expenditures",
                 [],
                 (_, result) => {
                     resolve(result);
@@ -38,12 +36,12 @@ export const fetchDocuments = () => {
     return promise;
 };
 
-export const insertDocument = (title, image, date, description) => {
+export const insertExpenditure = (name, amount, type, date) => {
     const promise = new Promise((resolve, reject) => {
         db.transaction((tx) => {
             tx.executeSql(
-                "INSERT INTO keepers(title, image, date, description) VALUES (?, ?, ?, ?);",
-                [title, image, date, description],
+                "INSERT INTO Expenditures(name, amount, type, date) VALUES (?, ?, ?, ?);",
+                [name, amount, type, date],
                 (_, result) => {
                     resolve(result);
                 },
@@ -56,12 +54,12 @@ export const insertDocument = (title, image, date, description) => {
     return promise;
 };
 
-export const updateDocument = (id, title, image, date, description) => {
+export const modifyExpenditure = (id, name, amount, type, date) => {
     const promise = new Promise((resolve, reject) => {
         db.transaction((tx) => {
             tx.executeSql(
-                "UPDATE keepers SET title=?, image=?, date=?, description=? where id=?",
-                [title, image, date, description, id],
+                "UPDATE Expenditures SET name=?, amount=?, type=?, date=? where id=?",
+                [name, amount, type, date, id],
                 (_, result) => {
                     resolve(result);
                 },
@@ -74,11 +72,11 @@ export const updateDocument = (id, title, image, date, description) => {
     return promise;
 };
 
-export const removeDocument = (id) => {
+export const removeExpenditure = (id) => {
     const promise = new Promise((resolve, reject) => {
         db.transaction((tx) => {
             tx.executeSql(
-                "DELETE FROM keepers WHERE id=?",
+                "DELETE FROM EXPENDITURES WHERE id=?",
                 [id],
                 (_, result) => {
                     resolve(result);

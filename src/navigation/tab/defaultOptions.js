@@ -6,10 +6,12 @@ import colors from "../../constants/colors";
 export const defaultScreenOptions = (route) => ({
     tabBarIcon: () => {
         let iconName;
-        if (route.route.name === "Home") {
+        if (route.route.name === "Moments") {
             iconName = "ios-list-box";
         } else if (route.route.name === "User") {
             iconName = "ios-person";
+        } else if (route.route.name === "Wallet") {
+            iconName = "md-wallet";
         }
         return <Ionicons name={iconName} size={30} color={colors.primary} />;
     },
