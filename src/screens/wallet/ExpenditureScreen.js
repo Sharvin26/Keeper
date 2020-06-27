@@ -58,6 +58,9 @@ const ExpenditureScreen = () => {
                         modalType={modalType}
                         addModal={addModal}
                         expenditureId={expenditureId}
+                        data={expenditures.find(
+                            (expense) => expense.id === expenditureId
+                        )}
                         closeModal={() => {
                             setExpenditureId();
                             setAddModal(false);
@@ -84,6 +87,7 @@ const ExpenditureScreen = () => {
                             amount={itemData.item.amount}
                             type={itemData.item.type}
                             date={itemData.item.date}
+                            isCompleted={itemData.item.isCompleted}
                             onPress={() => {
                                 setModalType(
                                     itemData.item.type === "GIVE_MONEY"

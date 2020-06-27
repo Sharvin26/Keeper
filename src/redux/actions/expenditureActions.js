@@ -18,9 +18,17 @@ export const getExpenditure = () => {
     return async (dispatch) => {
         try {
             const dbResult = await fetchExpenditure();
+            const expenditures = dbResult.rows._array.map((expenditure) => {
+                const isCompletedConversion =
+                    expenditure.isCompleted === 0 ? false : true;
+                return {
+                    ...expenditure,
+                    isCompleted: isCompletedConversion,
+                };
+            });
             dispatch({
                 type: FETCH_EXPENDITURE,
-                expenditures: dbResult.rows._array,
+                expenditures: expenditures,
             });
         } catch (error) {
             throw error;
@@ -28,7 +36,7 @@ export const getExpenditure = () => {
     };
 };
 
-export const addExpenditure = (name, amount, oppType, date) => {
+export const addExpenditure = (name, amount, oppType, date, isCompleted) => {
     return async (dispatch) => {
         try {
             let type;
@@ -39,11 +47,13 @@ export const addExpenditure = (name, amount, oppType, date) => {
             }
             const newDate = moment(date).format("MMMM Do YYYY, hh:mm");
             const newAmount = parseFloat(amount);
+            const isCompletedInInteger = isCompleted === false ? 0 : 1;
             const dbResult = await insertExpenditure(
                 name,
                 newAmount,
                 type,
-                newDate
+                newDate,
+                isCompletedInInteger
             );
             dispatch({
                 type: ADD_EXPENDITURE,
@@ -53,6 +63,7 @@ export const addExpenditure = (name, amount, oppType, date) => {
                     amount: newAmount,
                     type,
                     date: newDate,
+                    isCompleted,
                 },
             });
         } catch (error) {
@@ -61,7 +72,14 @@ export const addExpenditure = (name, amount, oppType, date) => {
     };
 };
 
-export const updateExpenditure = (id, name, amount, oppType, date) => {
+export const updateExpenditure = (
+    id,
+    name,
+    amount,
+    oppType,
+    date,
+    isCompleted
+) => {
     return async (dispatch) => {
         try {
             let type;
@@ -72,7 +90,15 @@ export const updateExpenditure = (id, name, amount, oppType, date) => {
             }
             const newDate = moment(date).format("MMMM Do YYYY, hh:mm");
             const newAmount = parseFloat(amount);
-            await modifyExpenditure(id, name, newAmount, type, newDate);
+            const isCompletedInInteger = isCompleted === false ? 0 : 1;
+            await modifyExpenditure(
+                id,
+                name,
+                newAmount,
+                type,
+                newDate,
+                isCompletedInInteger
+            );
             dispatch({
                 type: UPDATE_EXPENDITURE,
                 expenditureDocument: {
@@ -81,6 +107,7 @@ export const updateExpenditure = (id, name, amount, oppType, date) => {
                     amount: newAmount,
                     type,
                     date: newDate,
+                    isCompleted,
                 },
             });
         } catch (error) {

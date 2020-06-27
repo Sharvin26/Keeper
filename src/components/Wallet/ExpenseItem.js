@@ -1,13 +1,5 @@
-import React, { useState } from "react";
-import {
-    StyleSheet,
-    Text,
-    View,
-    Switch,
-    TouchableOpacity,
-    Platform,
-    Alert,
-} from "react-native";
+import React from "react";
+import { StyleSheet, Text, View, TouchableOpacity, Alert } from "react-native";
 import { useDispatch } from "react-redux";
 import { MaterialIcons } from "react-native-vector-icons";
 
@@ -15,12 +7,27 @@ import * as expenditureAction from "../../redux/actions/expenditureActions";
 
 const ExpenseItem = (props) => {
     const dispatch = useDispatch();
-    const [isEnabled, setIsEnabled] = useState(false);
-    const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
 
-    const deleteExpense = () => {
+    const toggleSwitch = async () => {
         try {
-            dispatch(expenditureAction.deleteExpenditure(props.id));
+            await dispatch(
+                expenditureAction.updateExpenditure(
+                    props.id,
+                    props.name,
+                    props.amount,
+                    props.type === "GIVE_MONEY" ? "GiveMoney" : "BorrowMoney",
+                    new Date().toISOString(),
+                    !props.isCompleted
+                )
+            );
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const deleteExpense = async () => {
+        try {
+            await dispatch(expenditureAction.deleteExpenditure(props.id));
         } catch (error) {
             Alert.alert(
                 "Something went wrong",
@@ -68,27 +75,20 @@ const ExpenseItem = (props) => {
                                 ? "Borrowed"
                                 : "Given"}
                         </Text>
-                        <View style={{ flexDirection: "row", padding: 10 }}>
-                            <Switch
-                                style={styles.switch}
-                                trackColor={{
-                                    false: "#767577",
-                                    true: "#228B22",
-                                }}
-                                thumbColor={isEnabled ? "#f5dd4b" : "#FF6347"}
-                                ios_backgroundColor="#3e3e3e"
-                                onValueChange={toggleSwitch}
-                                value={isEnabled}
+                        <View style={styles.iconContainer}>
+                            <MaterialIcons
+                                name={
+                                    props.isCompleted
+                                        ? "check-box"
+                                        : "check-box-outline-blank"
+                                }
+                                style={styles.iconStyle}
+                                onPress={toggleSwitch}
                             />
                             <MaterialIcons
                                 name="delete"
                                 onPress={deleteHandler}
-                                style={{
-                                    fontSize:
-                                        Platform.OS === "android" ? 30 : 40,
-                                    marginTop:
-                                        Platform.OS === "android" ? 10 : 5,
-                                }}
+                                style={styles.iconStyle}
                             />
                         </View>
                     </View>
@@ -141,5 +141,9 @@ const styles = StyleSheet.create({
         padding: 10,
         color: "white",
     },
-    switch: { marginTop: 10 },
+    iconContainer: { flexDirection: "row", padding: 10 },
+    iconStyle: {
+        fontSize: 30,
+        margin: 5,
+    },
 });

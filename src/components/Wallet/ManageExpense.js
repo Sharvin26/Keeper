@@ -59,7 +59,8 @@ const ManageExpense = (props) => {
                         values.name,
                         values.amount,
                         values.type,
-                        new Date().toISOString()
+                        new Date().toISOString(),
+                        props.data.isCompleted === 0 ? false : true
                     )
                 );
             } else {
@@ -68,7 +69,8 @@ const ManageExpense = (props) => {
                         values.name,
                         values.amount,
                         values.type,
-                        new Date().toISOString()
+                        new Date().toISOString(),
+                        false
                     )
                 );
             }

@@ -4,7 +4,7 @@ export const initExpenditure = () => {
     const promise = new Promise((resolve, reject) => {
         db.transaction((tx) => {
             tx.executeSql(
-                "CREATE TABLE IF NOT EXISTS Expenditures(id INTEGER PRIMARY KEY NOT NULL, name TEXT NOT NULL, amount REAL NOT NULL, type TEXT NOT NULL, date TEXT NOT NULL);",
+                "CREATE TABLE IF NOT EXISTS Expenditures(id INTEGER PRIMARY KEY NOT NULL, name TEXT NOT NULL, amount REAL NOT NULL, type TEXT NOT NULL, date TEXT NOT NULL, isCompleted INTEGER NOT NULL);",
                 [],
                 () => {
                     resolve();
@@ -36,12 +36,12 @@ export const fetchExpenditure = () => {
     return promise;
 };
 
-export const insertExpenditure = (name, amount, type, date) => {
+export const insertExpenditure = (name, amount, type, date, isCompleted) => {
     const promise = new Promise((resolve, reject) => {
         db.transaction((tx) => {
             tx.executeSql(
-                "INSERT INTO Expenditures(name, amount, type, date) VALUES (?, ?, ?, ?);",
-                [name, amount, type, date],
+                "INSERT INTO Expenditures(name, amount, type, date, isCompleted) VALUES (?, ?, ?, ?, ?);",
+                [name, amount, type, date, isCompleted],
                 (_, result) => {
                     resolve(result);
                 },
@@ -54,12 +54,19 @@ export const insertExpenditure = (name, amount, type, date) => {
     return promise;
 };
 
-export const modifyExpenditure = (id, name, amount, type, date) => {
+export const modifyExpenditure = (
+    id,
+    name,
+    amount,
+    type,
+    date,
+    isCompleted
+) => {
     const promise = new Promise((resolve, reject) => {
         db.transaction((tx) => {
             tx.executeSql(
-                "UPDATE Expenditures SET name=?, amount=?, type=?, date=? where id=?",
-                [name, amount, type, date, id],
+                "UPDATE Expenditures SET name=?, amount=?, type=?, date=?, isCompleted=? where id=?",
+                [name, amount, type, date, isCompleted, id],
                 (_, result) => {
                     resolve(result);
                 },
