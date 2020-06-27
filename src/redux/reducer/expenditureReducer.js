@@ -25,9 +25,9 @@ export default (state = initialState, action) => {
                 action.expenditureDocument.name,
                 action.expenditureDocument.amount,
                 action.expenditureDocument.type,
-                action.expenditureDocument.date
+                action.expenditureDocument.date,
+                action.expenditureDocument.isCompleted
             );
-
             return {
                 ...state,
                 expenditures: sortDocs(
@@ -41,7 +41,8 @@ export default (state = initialState, action) => {
                 action.expenditureDocument.name,
                 action.expenditureDocument.amount,
                 action.expenditureDocument.type,
-                action.expenditureDocument.date
+                action.expenditureDocument.date,
+                action.expenditureDocument.isCompleted
             );
             const allExpenditures = [...state.expenditures];
             const expenditureIndex = state.expenditures.findIndex(
