@@ -14,7 +14,7 @@ import { Formik } from "formik";
 import * as yup from "yup";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
-import * as expenditureActions from "../../redux/actions/expenditureActions";
+import * as expenditureActions from "../../../redux/actions/expenditureActions";
 
 const ledgerSchema = yup.object({
     name: yup
@@ -148,7 +148,6 @@ const ManageExpense = (props) => {
                                                 ...styles.inputContainer,
                                                 width: "40%",
                                                 alignItems: "center",
-                                                padding: 10,
                                             }}
                                         >
                                             <TextInput
