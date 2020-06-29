@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, TouchableOpacity, Alert } from "react-native";
 import { useDispatch } from "react-redux";
 import { MaterialIcons } from "react-native-vector-icons";
 
-import * as expenditureAction from "../../redux/actions/expenditureActions";
+import * as expenditureAction from "../../../redux/actions/expenditureActions";
 
 const ExpenseItem = (props) => {
     const dispatch = useDispatch();
@@ -103,7 +103,7 @@ export default ExpenseItem;
 const styles = StyleSheet.create({
     container: {
         width: "100%",
-        padding: 40,
+        padding: 30,
         borderBottomColor: "#ccc",
         borderBottomWidth: 1,
     },
