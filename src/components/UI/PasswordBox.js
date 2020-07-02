@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, TextInput, View, Text } from "react-native";
+import { StyleSheet, View, Text } from "react-native";
+import * as SecureStore from "expo-secure-store";
 import { Ionicons } from "@expo/vector-icons";
-import { AsyncStorage } from "react-native";
 import { Formik } from "formik";
 import * as yup from "yup";
 
@@ -39,7 +39,7 @@ const PasswordBox = (props) => {
 
     const _retrieveData = async () => {
         try {
-            const value = await AsyncStorage.getItem("password");
+            const value = await SecureStore.getItemAsync("password");
             if (value !== null) {
                 setUserPassword(value);
             }
@@ -52,7 +52,7 @@ const PasswordBox = (props) => {
 
     const _storeData = async (password) => {
         try {
-            await AsyncStorage.setItem("password", password);
+            await SecureStore.setItemAsync("password", password);
         } catch (error) {
             setPasswordError("Something Went Wrong");
         }

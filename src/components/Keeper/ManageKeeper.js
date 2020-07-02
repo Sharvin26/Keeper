@@ -99,7 +99,7 @@ const ManageKeeper = (props) => {
                         >
                             {(props) => (
                                 <View>
-                                    <View style={styles.searchContainer}>
+                                    <View style={styles.iconContainer}>
                                         <CustomIcons
                                             iconHandler={closeModal}
                                             name="md-arrow-back"
@@ -174,7 +174,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
-    searchContainer: {
+    iconContainer: {
         flexDirection: "row",
         justifyContent: "space-between",
     },
