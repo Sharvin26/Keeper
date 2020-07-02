@@ -31,7 +31,7 @@ const WalletScreen = (props) => {
                 <WalletCard
                     onPress={() => props.navigation.navigate("Todos")}
                     source={todo}
-                    label="Todo"
+                    label="Todos"
                 />
             </View>
         </View>

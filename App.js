@@ -7,8 +7,11 @@ import { ActionSheetProvider } from "@expo/react-native-action-sheet";
 
 import store from "./src/redux/store";
 import AppNavigator from "./src/navigation/AppNavigator";
+
 import { init } from "./src/helpers/db";
 import { initExpenditure } from "./src/helpers/expenditureDb";
+import { initDocument } from "./src/helpers/documentDb";
+import { initTodo } from "./src/helpers/todoDb";
 
 import { YellowBox } from "react-native";
 import _ from "lodash";
@@ -29,6 +32,14 @@ init()
     });
 
 initExpenditure()
+    .then(() => {})
+    .catch((error) => {});
+
+initDocument()
+    .then(() => {})
+    .catch((error) => {});
+
+initTodo()
     .then(() => {})
     .catch((error) => {});
 
