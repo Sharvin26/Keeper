@@ -4,7 +4,7 @@ export const initTodo = () => {
     const promise = new Promise((resolve, reject) => {
         db.transaction((tx) => {
             tx.executeSql(
-                "CREATE TABLE IF NOT EXISTS todos(id INTEGER PRIMARY KEY NOT NULL, task TEXT NOT NULL, isCompleted INTEGER NOT NULL, date TEXT NOT NULL);",
+                "CREATE TABLE IF NOT EXISTS todos(id INTEGER PRIMARY KEY NOT NULL, task TEXT NOT NULL, isCompleted INTEGER NOT NULL, date TEXT NOT NULL, reminder TEXT);",
                 [],
                 () => {
                     resolve();

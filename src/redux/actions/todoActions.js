@@ -37,7 +37,12 @@ export const addTodo = (task, isCompleted, date) => {
     return async (dispatch) => {
         try {
             const newDate = moment(date).format("MMMM Do YYYY, hh:mm");
-            const dbResult = await insertTodo(task, isCompleted, newDate);
+            const isCompletedConversion = isCompleted ? 1 : 0;
+            const dbResult = await insertTodo(
+                task,
+                isCompletedConversion,
+                newDate
+            );
             dispatch({
                 type: ADD_TODO,
                 todo: {
@@ -57,7 +62,7 @@ export const updateTodo = (id, task, isCompleted, date) => {
     return async (dispatch) => {
         try {
             const newDate = moment(date).format("MMMM Do YYYY, hh:mm");
-            const isCompletedConversion = isCompleted === 0 ? false : true;
+            const isCompletedConversion = isCompleted ? 1 : 0;
             await modifyTodo(id, task, isCompletedConversion, newDate);
             dispatch({
                 type: UPDATE_TODO,
