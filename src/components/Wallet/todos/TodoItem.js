@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { StyleSheet, Text, View, TouchableOpacity, Alert } from "react-native";
-import { MaterialIcons } from "react-native-vector-icons";
+import { MaterialIcons, FontAwesome } from "react-native-vector-icons";
 
 import * as todoActions from "../../../redux/actions/todoActions";
 
@@ -42,44 +42,56 @@ const TodoItem = (props) => {
     };
 
     return (
-        <TouchableOpacity
-            style={styles.container}
-            onPress={() => props.onPress()}
-        >
-            <Text style={styles.taskText}>{props.task}</Text>
-            <View style={styles.iconContainer}>
-                <MaterialIcons
-                    name={
-                        props.isCompleted
-                            ? "check-box"
-                            : "check-box-outline-blank"
-                    }
-                    style={styles.iconStyle}
-                    onPress={() => toggleState()}
-                />
-                <MaterialIcons
-                    name="delete-forever"
-                    style={styles.iconStyle}
-                    onPress={() => deleteHandler()}
-                />
-            </View>
-        </TouchableOpacity>
+        <View style={styles.mainContainer}>
+            <TouchableOpacity
+                style={styles.container}
+                onPress={() => props.onPress()}
+            >
+                <View style={styles.iconContainer}>
+                    <FontAwesome name="tasks" style={styles.taskIcon} />
+                    <Text style={styles.taskText}>{props.task}</Text>
+                </View>
+                <View style={styles.iconContainer}>
+                    <MaterialIcons
+                        name={
+                            props.isCompleted
+                                ? "check-box"
+                                : "check-box-outline-blank"
+                        }
+                        style={styles.iconStyle}
+                        onPress={() => toggleState()}
+                    />
+                    <MaterialIcons
+                        name="delete-forever"
+                        style={styles.iconStyle}
+                        onPress={() => deleteHandler()}
+                    />
+                </View>
+            </TouchableOpacity>
+        </View>
     );
 };
 
 export default TodoItem;
 
 const styles = StyleSheet.create({
-    container: {
-        flexDirection: "row",
-        justifyContent: "space-between",
+    mainContainer: {
         padding: 20,
         borderBottomWidth: 1,
         borderBottomColor: "black",
     },
-    taskText: {
+    container: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+    },
+    iconContainer: { flexDirection: "row" },
+    taskIcon: {
+        fontSize: 26,
         margin: 5,
-        fontSize: 18,
+    },
+    taskText: {
+        margin: 3,
+        fontSize: 20,
         fontFamily: "open-sans-bold",
     },
     iconContainer: { flexDirection: "row" },
