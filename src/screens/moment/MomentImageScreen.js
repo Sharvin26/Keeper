@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, Image, View, Text } from "react-native";
 
-const KeeperImageScreen = (props) => {
+const MomentImageScreen = (props) => {
     const image = props.route.params.image;
     if (!image) {
         return (
@@ -23,7 +23,7 @@ const KeeperImageScreen = (props) => {
     );
 };
 
-export default KeeperImageScreen;
+export default MomentImageScreen;
 
 const styles = StyleSheet.create({
     screen: {

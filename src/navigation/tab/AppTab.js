@@ -1,7 +1,7 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-import KeeperStack from "../stacks/KeeperStack";
+import MomentStack from "../stacks/MomentStack";
 import UserStack from "../stacks/UserStack";
 import { defaultScreenOptions, defaultTabBarOptions } from "./defaultOptions";
 import WalletStack from "../stacks/WalletStack";
@@ -14,7 +14,7 @@ export const momentScreenTab = () => {
             screenOptions={defaultScreenOptions}
             tabBarOptions={defaultTabBarOptions}
         >
-            <TabNavigator.Screen name="Moments" component={KeeperStack} />
+            <TabNavigator.Screen name="Moments" component={MomentStack} />
             <TabNavigator.Screen name="User" component={UserStack} />
         </TabNavigator.Navigator>
     );

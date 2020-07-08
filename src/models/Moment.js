@@ -1,4 +1,4 @@
-class Keeper {
+class Moment {
     constructor(id, title, image, date, description) {
         (this.id = id),
             (this.title = title),
@@ -8,4 +8,4 @@ class Keeper {
     }
 }
 
-export default Keeper;
+export default Moment;

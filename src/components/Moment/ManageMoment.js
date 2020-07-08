@@ -26,7 +26,7 @@ const keeperScheme = yup.object({
     image: yup.string().required(),
 });
 
-const ManageKeeper = (props) => {
+const ManageMoment = (props) => {
     const dispatch = useDispatch();
     const keeperId = props.id ? props.id : null;
     const editKeeper = useSelector((state) =>
@@ -168,7 +168,7 @@ const ManageKeeper = (props) => {
     );
 };
 
-export default ManageKeeper;
+export default ManageMoment;
 
 const styles = StyleSheet.create({
     container: {

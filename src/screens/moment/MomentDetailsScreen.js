@@ -15,22 +15,22 @@ import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import * as momentActions from "../../redux/actions/momentActions";
 import CustomHeaderButton from "../../components/UI/CustomHeaderButton";
 import colors from "../../constants/colors";
-import ManageKeeper from "../../components/Keeper/ManageKeeper";
+import ManageMoment from "../../components/Moment/ManageMoment";
 
-const KeeperDetailsScreen = (props) => {
+const MomentDetailsScreen = (props) => {
     const [isManageEnabled, setIsManageEnabled] = useState(false);
     const dispatch = useDispatch();
     const [isFetching, setIsFetching] = useState(false);
-    const keeperId = props.route.params.keeperId;
+    const momentId = props.route.params.momentId;
 
-    const keeper = useSelector((state) =>
-        state.moments.moments.find((keep) => keep.id === keeperId)
+    const moment = useSelector((state) =>
+        state.moments.moments.find((moment) => moment.id === momentId)
     );
 
     const deleteDoc = async () => {
         try {
             setIsFetching(true);
-            await dispatch(momentActions.deleteMoment(keeper.id, keeper.image));
+            await dispatch(momentActions.deleteMoment(moment.id, moment.image));
             props.navigation.goBack();
         } catch (error) {
             setIsFetching(false);
@@ -96,26 +96,26 @@ const KeeperDetailsScreen = (props) => {
 
     return (
         <View>
-            <ManageKeeper
+            <ManageMoment
                 isManageEnabled={isManageEnabled}
                 closeManageModal={closeManageModal}
                 navigate={props.navigation.navigate}
-                id={keeperId}
+                id={momentId}
             />
             <ScrollView style={styles.container}>
                 <View style={styles.textContainer}>
-                    <Text style={styles.text}>{keeper.title}</Text>
+                    <Text style={styles.text}>{moment.title}</Text>
                 </View>
                 <TouchableOpacity
                     onPress={() =>
-                        props.navigation.navigate("KeeperImage", {
-                            image: keeper.image,
+                        props.navigation.navigate("MomentImage", {
+                            image: moment.image,
                         })
                     }
                 >
                     <View style={styles.imageContainer}>
                         <Image
-                            source={{ uri: keeper.image }}
+                            source={{ uri: moment.image }}
                             style={styles.image}
                         />
                     </View>
@@ -124,14 +124,14 @@ const KeeperDetailsScreen = (props) => {
                     </Text>
                 </TouchableOpacity>
                 <View style={styles.textContainer}>
-                    <Text style={styles.description}>{keeper.description}</Text>
+                    <Text style={styles.description}>{moment.description}</Text>
                 </View>
             </ScrollView>
         </View>
     );
 };
 
-export default KeeperDetailsScreen;
+export default MomentDetailsScreen;
 
 const styles = StyleSheet.create({
     loadingScreen: {
