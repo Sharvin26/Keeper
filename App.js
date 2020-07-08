@@ -8,10 +8,10 @@ import { ActionSheetProvider } from "@expo/react-native-action-sheet";
 import store from "./src/redux/store";
 import AppNavigator from "./src/navigation/AppNavigator";
 
-import { init } from "./src/helpers/db";
-import { initExpenditure } from "./src/helpers/expenditureDb";
-import { initDocument } from "./src/helpers/documentDb";
-import { initTodo } from "./src/helpers/todoDb";
+import { initMoments } from "./src/database/momentsDb";
+import { initExpenditures } from "./src/database/expendituresDb";
+import { initTodos } from "./src/database/todosDb";
+import { initDocuments } from "./src/database/documentsDb";
 
 import { YellowBox } from "react-native";
 import _ from "lodash";
@@ -25,23 +25,25 @@ console.warn = (message) => {
 };
 
 //To Handle the errors;
-init()
+initMoments()
     .then(() => {})
     .catch((error) => {
         console.log(error);
     });
 
-initExpenditure()
+initExpenditures()
     .then(() => {})
-    .catch((error) => {});
+    .catch((error) => {
+        console.log(error);
+    });
 
-initDocument()
+initTodos()
     .then(() => {})
-    .catch((error) => {});
+    .catch((error) => console.log(error));
 
-initTodo()
+initDocuments()
     .then(() => {})
-    .catch((error) => {});
+    .catch((error) => console.log(error));
 
 const fetchFonts = () => {
     return Font.loadAsync({

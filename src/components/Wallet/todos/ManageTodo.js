@@ -8,7 +8,6 @@ import {
     TextInput,
 } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
-
 import { MaterialIcons } from "react-native-vector-icons";
 import * as yup from "yup";
 import { Formik } from "formik";
@@ -73,6 +72,7 @@ const ManageTodo = (props) => {
                     )
                 );
             }
+
             closeModal();
         } catch (error) {
             console.log(error);

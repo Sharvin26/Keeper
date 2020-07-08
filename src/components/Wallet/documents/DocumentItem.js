@@ -1,8 +1,21 @@
 import React from "react";
-import { StyleSheet, Text, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { useDispatch } from "react-redux";
+import { MaterialIcons } from "react-native-vector-icons";
 import PDFReader from "rn-pdf-reader-js";
+import { WebView } from "react-native-webview";
+import * as documentActions from "../../../redux/actions/documentActions";
 
 const DocumentItem = (props) => {
+    const dispatch = useDispatch();
+
+    const deleteHandler = () => {
+        try {
+            dispatch(documentActions.deleteDocuments(props.id));
+        } catch (error) {
+            console.log(error);
+        }
+    };
     return (
         <TouchableOpacity style={styles.container} activeOpacity={0}>
             <PDFReader
@@ -15,6 +28,14 @@ const DocumentItem = (props) => {
                 }}
             />
             <Text style={styles.text}>{props.label}</Text>
+            <MaterialIcons
+                name="delete"
+                style={{
+                    fontSize: 28,
+                    textAlign: "center",
+                }}
+                onPress={() => deleteHandler()}
+            />
         </TouchableOpacity>
     );
 };
