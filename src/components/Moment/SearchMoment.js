@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
     Platform,
     StyleSheet,
@@ -12,6 +12,7 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useSelector, useDispatch } from "react-redux";
+import PropTypes from "prop-types";
 
 import * as momentActions from "../../redux/actions/momentActions";
 import MomentItem from "./MomentItem";
@@ -154,3 +155,10 @@ const styles = StyleSheet.create({
         paddingTop: 20,
     },
 });
+
+SearchMoment.prototype = {
+    closeSearchModal: PropTypes.func.isRequired,
+    data: PropTypes.array.isRequired,
+    isSearchEnabled: PropTypes.bool.isRequired,
+    selectHandler: PropTypes.func.isRequired,
+};

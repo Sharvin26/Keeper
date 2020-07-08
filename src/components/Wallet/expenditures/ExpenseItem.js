@@ -2,6 +2,7 @@ import React from "react";
 import { StyleSheet, Text, View, TouchableOpacity, Alert } from "react-native";
 import { useDispatch } from "react-redux";
 import { MaterialIcons } from "react-native-vector-icons";
+import PropTypes from "prop-types";
 
 import * as expenditureAction from "../../../redux/actions/expenditureActions";
 
@@ -147,3 +148,13 @@ const styles = StyleSheet.create({
         margin: 5,
     },
 });
+
+ExpenseItem.prototype = {
+    amount: PropTypes.number,
+    date: PropTypes.string,
+    id: PropTypes.number,
+    isCompleted: PropTypes.bool,
+    name: PropTypes.string,
+    onPress: PropTypes.func,
+    type: PropTypes.string,
+};

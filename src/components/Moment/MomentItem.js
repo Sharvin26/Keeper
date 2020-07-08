@@ -1,5 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
+import PropTypes from "prop-types";
 import colors from "../../constants/colors";
 
 const MomentItem = (props) => {
@@ -49,3 +50,10 @@ const styles = StyleSheet.create({
         fontSize: 16,
     },
 });
+
+MomentItem.prototype = {
+    date: PropTypes.string.isRequired,
+    image: PropTypes.string.isRequired,
+    onSelect: PropTypes.func.isRequired,
+    title: PropTypes.string.isRequired,
+};

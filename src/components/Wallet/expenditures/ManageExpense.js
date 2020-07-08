@@ -8,11 +8,11 @@ import {
     Platform,
     SafeAreaView,
 } from "react-native";
-
 import { useDispatch, useSelector } from "react-redux";
 import { Formik } from "formik";
 import * as yup from "yup";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import PropTypes from "prop-types";
 
 import * as expenditureActions from "../../../redux/actions/expenditureActions";
 
@@ -235,3 +235,9 @@ const styles = StyleSheet.create({
         fontSize: 14,
     },
 });
+
+ManageExpense.prototype = {
+    addModal: PropTypes.bool.isRequired,
+    closeModal: PropTypes.bool.isRequired,
+    modalType: PropTypes.string.isRequired,
+};

@@ -14,6 +14,7 @@ import { Formik } from "formik";
 import * as yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import * as momentActions from "../../redux/actions/momentActions";
+import PropTypes from "prop-types";
 
 import CustomImagePicker from "./CustomImagePicker";
 import CustomTextInput from "../UI/CustomTextInput";
@@ -187,3 +188,9 @@ const styles = StyleSheet.create({
         marginTop: 20,
     },
 });
+
+ManageMoment.prototype = {
+    id: PropTypes.number,
+    closeManageModal: PropTypes.func.isRequired,
+    isManageEnabled: PropTypes.bool.isRequired,
+};
