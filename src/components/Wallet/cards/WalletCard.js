@@ -26,8 +26,6 @@ const styles = StyleSheet.create({
         flex: 1,
         marginHorizontal: 5,
         height: 190,
-        borderColor: "#a39e9e",
-        borderWidth: 1,
         justifyContent: "center",
     },
     imageContainer: {

@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 
-import * as keeperActions from "../../redux/actions/KeeperActions";
+import * as momentActions from "../../redux/actions/momentActions";
 import CustomHeaderButton from "../../components/UI/CustomHeaderButton";
 import colors from "../../constants/colors";
 import ManageKeeper from "../../components/Keeper/ManageKeeper";
@@ -24,15 +24,13 @@ const KeeperDetailsScreen = (props) => {
     const keeperId = props.route.params.keeperId;
 
     const keeper = useSelector((state) =>
-        state.Keeps.documents.find((keep) => keep.id === keeperId)
+        state.moments.moments.find((keep) => keep.id === keeperId)
     );
 
     const deleteDoc = async () => {
         try {
             setIsFetching(true);
-            await dispatch(
-                keeperActions.deleteDocument(keeper.id, keeper.image)
-            );
+            await dispatch(momentActions.deleteMoment(keeper.id, keeper.image));
             props.navigation.goBack();
         } catch (error) {
             setIsFetching(false);

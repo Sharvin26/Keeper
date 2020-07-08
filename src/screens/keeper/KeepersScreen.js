@@ -13,7 +13,7 @@ import { FontAwesome } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { useActionSheet } from "@expo/react-native-action-sheet";
 
-import * as KeeperActions from "../../redux/actions/KeeperActions";
+import * as momentActions from "../../redux/actions/momentActions";
 import KeeperItem from "../../components/Keeper/KeeperItem";
 import CustomHeaderButton from "../../components/UI/CustomHeaderButton";
 import colors from "../../constants/colors";
@@ -29,7 +29,7 @@ const KeepersScreen = (props) => {
     const [error, setError] = useState();
 
     const dispatch = useDispatch();
-    const keepers = useSelector((state) => state.Keeps.documents);
+    const keepers = useSelector((state) => state.moments.moments);
     const { showActionSheetWithOptions } = useActionSheet();
 
     const onOpenActionSheet = () => {
@@ -64,7 +64,7 @@ const KeepersScreen = (props) => {
                     sortType = "Title";
                 }
 
-                dispatch(KeeperActions.sortDocuments(sortType));
+                dispatch(momentActions.sortMoments(sortType));
             }
         );
     };
@@ -107,7 +107,7 @@ const KeepersScreen = (props) => {
         setError(null);
         setIsRefreshing(true);
         try {
-            await dispatch(KeeperActions.getDocuments());
+            await dispatch(momentActions.getMoments());
         } catch (error) {
             setError(error.message);
         }
@@ -117,7 +117,7 @@ const KeepersScreen = (props) => {
     const fetchData = useCallback(async () => {
         setIsFetching(true);
         try {
-            await dispatch(KeeperActions.getDocuments());
+            await dispatch(momentActions.getMoments());
             setIsFetching(false);
         } catch (error) {
             setIsFetching(false);

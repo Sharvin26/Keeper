@@ -1,10 +1,11 @@
 import moment from "moment";
+
 import {
     fetchExpenditure,
     insertExpenditure,
     modifyExpenditure,
     removeExpenditure,
-} from "../../helpers/expenditureDb";
+} from "../../database/expendituresDb";
 
 export const FETCH_EXPENDITURE = "FETCH_EXPENDITURE";
 export const ADD_EXPENDITURE = "ADD_EXPENDITURE";

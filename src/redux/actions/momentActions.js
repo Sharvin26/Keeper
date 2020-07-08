@@ -1,30 +1,31 @@
 import moment from "moment";
 import * as FileSystem from "expo-file-system";
+
 import {
-    fetchDocuments,
-    insertDocument,
-    updateDocument,
-    removeDocument,
-} from "../../helpers/db";
+    fetchMoments,
+    insertMoment,
+    modifyMoment,
+    removeMoment,
+} from "../../database/momentsDb";
 
-export const GET_DOCUMENTS = "GET_DOCUMENTS";
-export const ADD_DOCUMENT = "ADD_DOCUMENT";
-export const EDIT_DOCUMENT = "EDIT_DOCUMENT";
-export const DELETE_DOCUMENT = "DELETE_DOCUMENT";
-export const SEARCH_DOCUMENTS = "SEARCH_DOCUMENTS";
-export const SORT_DOCUMENTS = "SORT_DOCUMENTS";
+export const GET_MOMENTS = "GET_MOMENTS";
+export const ADD_MOMENT = "ADD_MOMENT";
+export const EDIT_MOMENT = "EDIT_MOMENT";
+export const DELETE_MOMENT = "DELETE_MOMENT";
+export const SEARCH_MOMENTS = "SEARCH_MOMENTS";
+export const SORT_MOMENTS = "SORT_MOMENTS";
 
-export const getDocuments = () => {
+export const getMoments = () => {
     return async (dispatch) => {
-        const dbResult = await fetchDocuments();
+        const dbResult = await fetchMoments();
         dispatch({
-            type: GET_DOCUMENTS,
-            documents: dbResult.rows._array,
+            type: GET_MOMENTS,
+            moments: dbResult.rows._array,
         });
     };
 };
 
-export const addDocument = (title, image, date, description) => {
+export const addMoment = (title, image, date, description) => {
     return async (dispatch) => {
         try {
             const newDate = moment(date).format("MMMM Do YYYY, hh:mm");
@@ -34,15 +35,15 @@ export const addDocument = (title, image, date, description) => {
                 from: image,
                 to: newPath,
             });
-            const dbResult = await insertDocument(
+            const dbResult = await insertMoment(
                 title,
                 newPath,
                 newDate,
                 description
             );
             dispatch({
-                type: ADD_DOCUMENT,
-                document: {
+                type: ADD_MOMENT,
+                moment: {
                     id: dbResult.insertId,
                     title,
                     image: newPath,
@@ -56,7 +57,7 @@ export const addDocument = (title, image, date, description) => {
     };
 };
 
-export const editDocument = (
+export const editMoment = (
     id,
     title,
     image,
@@ -76,10 +77,10 @@ export const editDocument = (
                     to: newPath,
                 });
             }
-            await updateDocument(id, title, newPath, newDate, description);
+            await modifyMoment(id, title, newPath, newDate, description);
             dispatch({
-                type: EDIT_DOCUMENT,
-                document: {
+                type: EDIT_MOMENT,
+                moment: {
                     id,
                     title,
                     image: newPath,
@@ -93,13 +94,13 @@ export const editDocument = (
     };
 };
 
-export const deleteDocument = (id, image) => {
+export const deleteMoment = (id, image) => {
     return async (dispatch) => {
         try {
             await FileSystem.deleteAsync(image);
-            await removeDocument(id);
+            await removeMoment(id);
             dispatch({
-                type: DELETE_DOCUMENT,
+                type: DELETE_MOMENT,
                 id,
             });
         } catch (error) {
@@ -108,16 +109,16 @@ export const deleteDocument = (id, image) => {
     };
 };
 
-export const searchDocuments = (value) => {
+export const searchMoments = (value) => {
     return {
-        type: SEARCH_DOCUMENTS,
+        type: SEARCH_MOMENTS,
         value,
     };
 };
 
-export const sortDocuments = (sortType) => {
+export const sortMoments = (sortType) => {
     return {
-        type: SORT_DOCUMENTS,
+        type: SORT_MOMENTS,
         sortType,
     };
 };

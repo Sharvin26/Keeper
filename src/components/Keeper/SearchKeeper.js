@@ -13,7 +13,7 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { useSelector, useDispatch } from "react-redux";
 
-import * as keeperActions from "../../redux/actions/KeeperActions";
+import * as momentActions from "../../redux/actions/momentActions";
 import KeeperItem from "./KeeperItem";
 import colors from "../../constants/colors";
 
@@ -21,9 +21,9 @@ const SearchKeeper = (props) => {
     const dispatch = useDispatch();
     const [searchQuery, setSearchQuery] = useState("");
     const [isFetching, setIsFetching] = useState(false);
-    const searchOutput = useSelector((state) => state.Keeps.searchDocs);
+    const searchOutput = useSelector((state) => state.moments.searchMoments);
     const searchResultEmpty = useSelector((state) =>
-        state.Keeps.searchResult ? state.Keeps.searchResult : null
+        state.moments.searchResult ? state.moments.searchResult : null
     );
 
     const changeHandler = (text) => {
@@ -37,7 +37,7 @@ const SearchKeeper = (props) => {
     };
 
     const searchData = async (text) => {
-        await dispatch(keeperActions.searchDocuments(text));
+        await dispatch(momentActions.searchMoments(text));
         setIsFetching(false);
     };
 

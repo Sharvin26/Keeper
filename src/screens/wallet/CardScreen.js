@@ -4,7 +4,7 @@ import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import CustomHeaderButton from "../../components/UI/CustomHeaderButton";
 
 import PasswordBox from "../../components/UI/PasswordBox";
-import ManageCard from "../../components/Wallet/ManageCard";
+import ManageCard from "../../components/Wallet/cards/ManageCard";
 
 const CardScreen = (props) => {
     const [isPasswordValid, setIsPasswordValid] = useState(false);

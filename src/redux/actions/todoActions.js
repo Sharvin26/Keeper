@@ -4,7 +4,7 @@ import {
     insertTodo,
     modifyTodo,
     removeTodo,
-} from "../../helpers/todoDb";
+} from "../../database/todosDb";
 
 export const GET_TODOS = "GET_TODOS";
 export const ADD_TODO = "ADD_TODO";

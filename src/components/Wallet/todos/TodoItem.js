@@ -1,7 +1,10 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { StyleSheet, Text, View, TouchableOpacity, Alert } from "react-native";
-import { MaterialIcons, FontAwesome } from "react-native-vector-icons";
+import {
+    MaterialIcons,
+    MaterialCommunityIcons,
+} from "react-native-vector-icons";
 
 import * as todoActions from "../../../redux/actions/todoActions";
 
@@ -29,7 +32,7 @@ const TodoItem = (props) => {
     const deleteHandler = () => {
         Alert.alert(
             "Are you sure?",
-            "Do you want to delete the task? Remember Once deleted it cannont be restored.",
+            "Do you want to delete the task? Remember Once deleted it cannot be restored.",
             [
                 { text: "Cancel", style: "cancel" },
                 {
@@ -48,7 +51,10 @@ const TodoItem = (props) => {
                 onPress={() => props.onPress()}
             >
                 <View style={styles.iconContainer}>
-                    <FontAwesome name="tasks" style={styles.taskIcon} />
+                    <MaterialCommunityIcons
+                        name="bell"
+                        style={styles.iconStyle}
+                    />
                     <Text style={styles.taskText}>{props.task}</Text>
                 </View>
                 <View style={styles.iconContainer}>
@@ -84,7 +90,6 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
     },
-    iconContainer: { flexDirection: "row" },
     taskIcon: {
         fontSize: 26,
         margin: 5,
@@ -93,6 +98,7 @@ const styles = StyleSheet.create({
         margin: 3,
         fontSize: 20,
         fontFamily: "open-sans-bold",
+        width: "73%",
     },
     iconContainer: { flexDirection: "row" },
     iconStyle: {

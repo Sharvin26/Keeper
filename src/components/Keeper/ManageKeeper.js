@@ -13,7 +13,7 @@ import {
 import { Formik } from "formik";
 import * as yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
-import * as keeperActions from "../../redux/actions/KeeperActions";
+import * as momentActions from "../../redux/actions/momentActions";
 
 import CustomImagePicker from "./CustomImagePicker";
 import CustomTextInput from "../UI/CustomTextInput";
@@ -30,7 +30,7 @@ const ManageKeeper = (props) => {
     const dispatch = useDispatch();
     const keeperId = props.id ? props.id : null;
     const editKeeper = useSelector((state) =>
-        state.Keeps.documents.find((doc) => doc.id === keeperId)
+        state.moments.moments.find((doc) => doc.id === keeperId)
     );
     const initialValues = {
         title: editKeeper ? editKeeper.title : "",
@@ -46,7 +46,7 @@ const ManageKeeper = (props) => {
                     isImageChanged = true;
                 }
                 await dispatch(
-                    keeperActions.editDocument(
+                    momentActions.editMoment(
                         keeperId,
                         values.title,
                         values.image,
@@ -57,7 +57,7 @@ const ManageKeeper = (props) => {
                 );
             } else {
                 await dispatch(
-                    keeperActions.addDocument(
+                    momentActions.addMoment(
                         values.title,
                         values.image,
                         new Date().toISOString(),
