@@ -11,6 +11,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { MaterialIcons } from "react-native-vector-icons";
 import * as yup from "yup";
 import { Formik } from "formik";
+import PropTypes from "prop-types";
 
 import * as todoActions from "../../../redux/actions/todoActions";
 import CustomIcons from "../../UI/CustomIcons";
@@ -193,3 +194,8 @@ const styles = StyleSheet.create({
         margin: 5,
     },
 });
+
+ManageTodo.prototype = {
+    closeModal: PropTypes.func.isRequired,
+    isModalOpen: PropTypes.bool.isRequired,
+};

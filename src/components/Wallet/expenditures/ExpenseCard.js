@@ -1,5 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
+import PropTypes from "prop-types";
 
 import colors from "../../../constants/colors";
 
@@ -68,3 +69,10 @@ const styles = StyleSheet.create({
         color: "white",
     },
 });
+
+ExpenseCard.prototype = {
+    amountOne: PropTypes.number.isRequired,
+    amountTwo: PropTypes.number.isRequired,
+    labelOne: PropTypes.string.isRequired,
+    labelTwo: PropTypes.string.isRequired,
+};

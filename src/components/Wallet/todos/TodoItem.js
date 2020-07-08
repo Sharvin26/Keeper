@@ -5,6 +5,7 @@ import {
     MaterialIcons,
     MaterialCommunityIcons,
 } from "react-native-vector-icons";
+import PropTypes from "prop-types";
 
 import * as todoActions from "../../../redux/actions/todoActions";
 
@@ -106,3 +107,10 @@ const styles = StyleSheet.create({
         margin: 5,
     },
 });
+
+TodoItem.prototype = {
+    id: PropTypes.number,
+    isCompleted: PropTypes.bool,
+    onPress: PropTypes.func,
+    task: PropTypes.task,
+};

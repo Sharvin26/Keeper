@@ -1,5 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, View, TextInput } from "react-native";
+import PropTypes from "prop-types";
 
 import colors from "../../constants/colors";
 
@@ -39,3 +40,9 @@ const styles = StyleSheet.create({
         fontSize: 14,
     },
 });
+
+CustomTextInput.prototype = {
+    label: PropTypes.string.isRequired,
+    onChangeText: PropTypes.func.isRequired,
+    value: PropTypes.string.isRequired,
+};
