@@ -6,7 +6,7 @@ import {
     SEARCH_MOMENTS,
     SORT_MOMENTS,
 } from "../actions/momentActions";
-import Keeper from "../../models/Keeper";
+import Moment from "../../models/Moment";
 import sortDocs from "../../helpers/customSort";
 var _ = require("lodash");
 
@@ -25,7 +25,7 @@ export default (state = initialState, action) => {
                 moments: docs,
             };
         case ADD_MOMENT:
-            const newMoment = new Keeper(
+            const newMoment = new Moment(
                 action.moment.id,
                 action.moment.title,
                 action.moment.image,
@@ -40,7 +40,7 @@ export default (state = initialState, action) => {
                 ),
             };
         case EDIT_MOMENT:
-            const updatedMoment = new Keeper(
+            const updatedMoment = new Moment(
                 action.moment.id,
                 action.moment.title,
                 action.moment.image,

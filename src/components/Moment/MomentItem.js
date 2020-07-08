@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
 import colors from "../../constants/colors";
 
-const KeeperItem = (props) => {
+const MomentItem = (props) => {
     return (
         <TouchableOpacity onPress={props.onSelect} style={styles.placeItem}>
             <Image style={styles.image} source={{ uri: props.image }} />
@@ -14,7 +14,7 @@ const KeeperItem = (props) => {
     );
 };
 
-export default KeeperItem;
+export default MomentItem;
 
 const styles = StyleSheet.create({
     placeItem: {

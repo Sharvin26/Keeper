@@ -14,14 +14,14 @@ import { Ionicons } from "@expo/vector-icons";
 import { useActionSheet } from "@expo/react-native-action-sheet";
 
 import * as momentActions from "../../redux/actions/momentActions";
-import KeeperItem from "../../components/Keeper/KeeperItem";
+import MomentItem from "../../components/Moment/MomentItem";
+import SearchMoment from "../../components/Moment/SearchMoment";
+import ManageMoment from "../../components/Moment/ManageMoment";
 import CustomHeaderButton from "../../components/UI/CustomHeaderButton";
 import colors from "../../constants/colors";
 import ErrorScreen from "../../components/UI/ErrorScreen";
-import SearchKeeper from "../../components/Keeper/SearchKeeper";
-import ManageKeeper from "../../components/Keeper/ManageKeeper";
 
-const KeepersScreen = (props) => {
+const MomentsScreen = (props) => {
     const [isManageEnabled, setIsManageEnabled] = useState(false);
     const [isSearchEnabled, setIsSearchEnabled] = useState(false);
     const [isFetching, setIsFetching] = useState(false);
@@ -29,7 +29,7 @@ const KeepersScreen = (props) => {
     const [error, setError] = useState();
 
     const dispatch = useDispatch();
-    const keepers = useSelector((state) => state.moments.moments);
+    const moments = useSelector((state) => state.moments.moments);
     const { showActionSheetWithOptions } = useActionSheet();
 
     const onOpenActionSheet = () => {
@@ -103,7 +103,7 @@ const KeepersScreen = (props) => {
         });
     }, [setIsManageEnabled, setIsSearchEnabled]);
 
-    const loadDocuments = useCallback(async () => {
+    const loadMoments = useCallback(async () => {
         setError(null);
         setIsRefreshing(true);
         try {
@@ -126,10 +126,7 @@ const KeepersScreen = (props) => {
     }, [dispatch]);
 
     useEffect(() => {
-        const unsubscribe = props.navigation.addListener(
-            "focus",
-            loadDocuments
-        );
+        const unsubscribe = props.navigation.addListener("focus", loadMoments);
         return () => {
             unsubscribe();
         };
@@ -141,8 +138,8 @@ const KeepersScreen = (props) => {
 
     const selectHandler = (id) => {
         if (isSearchEnabled) setIsSearchEnabled(false);
-        props.navigation.navigate("KeeperDetail", {
-            keeperId: id,
+        props.navigation.navigate("MomentDetails", {
+            momentId: id,
         });
     };
 
@@ -166,16 +163,16 @@ const KeepersScreen = (props) => {
         return <ErrorScreen />;
     }
 
-    if (keepers.length === 0) {
+    if (moments.length === 0) {
         return (
             <View style={styles.screen}>
-                <ManageKeeper
+                <ManageMoment
                     isManageEnabled={isManageEnabled}
                     closeManageModal={closeManageModal}
                     navigate={props.navigation.navigate}
                 />
-                <SearchKeeper
-                    data={keepers}
+                <SearchMoment
+                    data={moments}
                     isSearchEnabled={isSearchEnabled}
                     closeSearchModal={closeSearchModal}
                     selectHandler={selectHandler}
@@ -192,25 +189,25 @@ const KeepersScreen = (props) => {
 
     return (
         <View>
-            <ManageKeeper
+            <ManageMoment
                 isManageEnabled={isManageEnabled}
                 closeManageModal={closeManageModal}
                 navigate={props.navigation.navigate}
             />
-            <SearchKeeper
-                data={keepers}
+            <SearchMoment
+                data={moments}
                 isSearchEnabled={isSearchEnabled}
                 closeSearchModal={closeSearchModal}
                 selectHandler={selectHandler}
             />
             <FlatList
                 showsVerticalScrollIndicator={false}
-                onRefresh={loadDocuments}
+                onRefresh={loadMoments}
                 refreshing={isRefreshing}
-                data={keepers}
+                data={moments}
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={(itemData) => (
-                    <KeeperItem
+                    <MomentItem
                         image={itemData.item.image}
                         title={itemData.item.title}
                         date={itemData.item.date}
@@ -222,7 +219,7 @@ const KeepersScreen = (props) => {
     );
 };
 
-export default KeepersScreen;
+export default MomentsScreen;
 
 const styles = StyleSheet.create({
     screen: {

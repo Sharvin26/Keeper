@@ -14,10 +14,10 @@ import { Ionicons } from "@expo/vector-icons";
 import { useSelector, useDispatch } from "react-redux";
 
 import * as momentActions from "../../redux/actions/momentActions";
-import KeeperItem from "./KeeperItem";
+import MomentItem from "./MomentItem";
 import colors from "../../constants/colors";
 
-const SearchKeeper = (props) => {
+const SearchMoment = (props) => {
     const dispatch = useDispatch();
     const [searchQuery, setSearchQuery] = useState("");
     const [isFetching, setIsFetching] = useState(false);
@@ -93,7 +93,7 @@ const SearchKeeper = (props) => {
                             }
                             keyExtractor={(item) => item.id.toString()}
                             renderItem={(itemData) => (
-                                <KeeperItem
+                                <MomentItem
                                     image={itemData.item.image}
                                     title={itemData.item.title}
                                     date={itemData.item.date}
@@ -111,7 +111,7 @@ const SearchKeeper = (props) => {
     );
 };
 
-export default SearchKeeper;
+export default SearchMoment;
 
 const styles = StyleSheet.create({
     searchingContainer: {
