@@ -6,6 +6,7 @@ import {
     Modal,
     View,
     TextInput,
+    Alert,
 } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { MaterialIcons } from "react-native-vector-icons";
@@ -16,6 +17,7 @@ import PropTypes from "prop-types";
 import * as todoActions from "../../../redux/actions/todoActions";
 import CustomIcons from "../../UI/CustomIcons";
 import colors from "../../../constants/colors";
+import errorText from "../../../constants/errorText";
 
 const todoSchema = yup.object({
     task: yup
@@ -73,10 +75,11 @@ const ManageTodo = (props) => {
                     )
                 );
             }
-
             closeModal();
         } catch (error) {
-            console.log(error);
+            Alert.alert(errorText.submit.title, errorText.submit.message, [
+                { text: "Okay", style: "default", onPress: () => closeModal() },
+            ]);
         }
     };
 

@@ -1,14 +1,13 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 
+import errorText from "../../constants/errorText";
+
 const ErrorScreen = () => {
     return (
         <View style={styles.screen}>
-            <Text style={styles.text}>
-                Wooh!!! Something went wrong. Please report the bug from the bug
-                section.
-            </Text>
-            <Text style={styles.text}>Thank you.</Text>
+            <Text style={styles.errortext}>{errorText.submit.title}</Text>
+            <Text style={styles.text}>{errorText.submit.message}</Text>
         </View>
     );
 };
@@ -22,5 +21,11 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
     },
-    text: { textAlign: "center", fontSize: 18, fontFamily: "open-sans-bold" },
+    errortext: {
+        textAlign: "center",
+        fontSize: 20,
+        fontFamily: "open-sans-bold",
+        paddingBottom: 10,
+    },
+    text: { textAlign: "center", fontSize: 18, fontFamily: "open-sans" },
 });

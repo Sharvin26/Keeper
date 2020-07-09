@@ -7,6 +7,7 @@ import {
     TextInput,
     Platform,
     SafeAreaView,
+    Alert,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { Formik } from "formik";
@@ -15,6 +16,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import PropTypes from "prop-types";
 
 import * as expenditureActions from "../../../redux/actions/expenditureActions";
+import errorText from "../../../constants/errorText";
 
 const ledgerSchema = yup.object({
     name: yup
@@ -60,7 +62,7 @@ const ManageExpense = (props) => {
                         values.amount,
                         values.type,
                         new Date().toISOString(),
-                        props.data.isCompleted === 0 ? false : true
+                        props.data.isCompleted
                     )
                 );
             } else {
@@ -75,7 +77,15 @@ const ManageExpense = (props) => {
                 );
             }
             props.closeModal();
-        } catch (error) {}
+        } catch (error) {
+            Alert.alert(errorText.submit.title, errorText.submit.message, [
+                {
+                    text: "okay",
+                    style: "default",
+                    onPress: () => props.closeModal(),
+                },
+            ]);
+        }
     };
 
     return (

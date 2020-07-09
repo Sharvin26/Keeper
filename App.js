@@ -15,6 +15,7 @@ import { initDocuments } from "./src/database/documentsDb";
 
 import { YellowBox } from "react-native";
 import _ from "lodash";
+import ErrorScreen from "./src/components/UI/ErrorScreen";
 
 YellowBox.ignoreWarnings(["componentWillReceiveProps"]);
 const _console = _.clone(console);
@@ -24,26 +25,31 @@ console.warn = (message) => {
     }
 };
 
-//To Handle the errors;
-initMoments()
-    .then(() => {})
-    .catch((error) => {
-        console.log(error);
-    });
+const initDatabase = () => {
+    initMoments()
+        .then(() => {})
+        .catch((error) => {
+            throw error;
+        });
 
-initExpenditures()
-    .then(() => {})
-    .catch((error) => {
-        console.log(error);
-    });
+    initExpenditures()
+        .then(() => {})
+        .catch((error) => {
+            throw error;
+        });
 
-initTodos()
-    .then(() => {})
-    .catch((error) => console.log(error));
+    initTodos()
+        .then(() => {})
+        .catch((error) => {
+            throw error;
+        });
 
-initDocuments()
-    .then(() => {})
-    .catch((error) => console.log(error));
+    initDocuments()
+        .then(() => {})
+        .catch((error) => {
+            throw error;
+        });
+};
 
 const fetchFonts = () => {
     return Font.loadAsync({
@@ -54,6 +60,12 @@ const fetchFonts = () => {
 
 const App = () => {
     const [isFontLoaded, setIsFontLoaded] = useState(false);
+
+    try {
+        initDatabase();
+    } catch (error) {
+        return <ErrorScreen />;
+    }
 
     if (!isFontLoaded) {
         return (

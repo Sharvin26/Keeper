@@ -8,25 +8,35 @@ import {
 import PropTypes from "prop-types";
 
 import * as todoActions from "../../../redux/actions/todoActions";
+import errorText from "../../../constants/errorText";
 
 const TodoItem = (props) => {
     const dispatch = useDispatch();
+
     const toggleState = () => {
-        dispatch(
-            todoActions.updateTodo(
-                props.id,
-                props.task,
-                !props.isCompleted,
-                new Date().toISOString()
-            )
-        );
+        try {
+            dispatch(
+                todoActions.updateTodo(
+                    props.id,
+                    props.task,
+                    !props.isCompleted,
+                    new Date().toISOString()
+                )
+            );
+        } catch (error) {
+            Alert.alert(errorText.submit.title, errorText.submit.message, [
+                { text: "Okay", style: "default" },
+            ]);
+        }
     };
 
     const deleteTodo = () => {
         try {
             dispatch(todoActions.deleteTodo(props.id));
         } catch (error) {
-            console.log(error);
+            Alert.alert(errorText.submit.title, errorText.submit.message, [
+                { text: "Okay", style: "default" },
+            ]);
         }
     };
 
