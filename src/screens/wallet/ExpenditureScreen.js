@@ -11,6 +11,7 @@ import * as expenditureActions from "../../redux/actions/expenditureActions";
 import ExpenseCard from "../../components/Wallet/expenditures/ExpenseCard";
 import ManageExpense from "../../components/Wallet/expenditures/ManageExpense";
 import ExpenseItem from "../../components/Wallet/expenditures/ExpenseItem";
+import ErrorScreen from "../../components/UI/ErrorScreen";
 
 const initialLayout = { width: Dimensions.get("window").width };
 
@@ -34,51 +35,49 @@ const renderTabBar = (props) => (
     />
 );
 
-const CustomFlatList = (props) => {
-    return (
-        <FlatList
-            showsVerticalScrollIndicator={false}
-            contentContainerStyle={{
-                paddingBottom: "15%",
-            }}
-            style={styles.list}
-            data={props.expenditures}
-            keyExtractor={(item) => item.id.toString()}
-            renderItem={(itemData) => (
-                <ExpenseItem
-                    id={itemData.item.id}
-                    name={itemData.item.name}
-                    amount={itemData.item.amount}
-                    type={itemData.item.type}
-                    date={itemData.item.date}
-                    isCompleted={itemData.item.isCompleted}
-                    onPress={() => {
-                        props.setModalType(
-                            itemData.item.type === "GIVE_MONEY"
-                                ? "GiveMoney"
-                                : "BorrowMoney"
-                        );
-                        props.setExpenditureId(itemData.item.id);
-                        props.setAddModal(true);
-                    }}
-                />
-            )}
-        />
-    );
-};
+const CustomFlatList = (props) => (
+    <FlatList
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{
+            paddingBottom: "15%",
+        }}
+        style={styles.list}
+        data={props.expenditures}
+        keyExtractor={(item) => item.id.toString()}
+        renderItem={(itemData) => (
+            <ExpenseItem
+                id={itemData.item.id}
+                name={itemData.item.name}
+                amount={itemData.item.amount}
+                type={itemData.item.type}
+                date={itemData.item.date}
+                isCompleted={itemData.item.isCompleted}
+                onPress={() => {
+                    props.setModalType(
+                        itemData.item.type === "GIVE_MONEY"
+                            ? "GiveMoney"
+                            : "BorrowMoney"
+                    );
+                    props.setExpenditureId(itemData.item.id);
+                    props.setAddModal(true);
+                }}
+            />
+        )}
+    />
+);
 
 const ExpenditureScreen = () => {
     const dispatch = useDispatch();
     const [expenditureId, setExpenditureId] = useState();
     const [error, setError] = useState();
     const [addModal, setAddModal] = useState(false);
+    const [index, setIndex] = React.useState(0);
     const [modalType, setModalType] = useState();
 
     const [routes] = useState([
         { key: "pending", title: "Pending" },
         { key: "completed", title: "Completed" },
     ]);
-    const [index, setIndex] = React.useState(0);
 
     const expenditures = useSelector(
         (state) => state.expenditures.expenditures
@@ -164,11 +163,7 @@ const ExpenditureScreen = () => {
     });
 
     if (error) {
-        return (
-            <View style={styles.errorContainer}>
-                <Text>Something went wrong!! Please try again</Text>
-            </View>
-        );
+        return <ErrorScreen />;
     }
     return (
         <View style={styles.container}>

@@ -10,6 +10,7 @@ import TodoItem from "../../components/Wallet/todos/TodoItem";
 import CustomHeaderButton from "../../components/UI/CustomHeaderButton";
 import colors from "../../constants/colors";
 import ManageTodo from "../../components/Wallet/todos/ManageTodo";
+import ErrorScreen from "../../components/UI/ErrorScreen";
 
 const initialLayout = { width: Dimensions.get("window").width };
 
@@ -24,27 +25,25 @@ const renderTabBar = (props) => (
     />
 );
 
-const CustomFlatList = (props) => {
-    return (
-        <FlatList
-            showsVerticalScrollIndicator={false}
-            style={styles.list}
-            data={props.todos}
-            keyExtractor={(item) => item.id.toString()}
-            renderItem={(itemData) => (
-                <TodoItem
-                    id={itemData.item.id}
-                    task={itemData.item.task}
-                    isCompleted={itemData.item.isCompleted}
-                    onPress={() => {
-                        props.setTodoId(itemData.item.id);
-                        props.setIsModalOpen(true);
-                    }}
-                />
-            )}
-        />
-    );
-};
+const CustomFlatList = (props) => (
+    <FlatList
+        showsVerticalScrollIndicator={false}
+        style={styles.list}
+        data={props.todos}
+        keyExtractor={(item) => item.id.toString()}
+        renderItem={(itemData) => (
+            <TodoItem
+                id={itemData.item.id}
+                task={itemData.item.task}
+                isCompleted={itemData.item.isCompleted}
+                onPress={() => {
+                    props.setTodoId(itemData.item.id);
+                    props.setIsModalOpen(true);
+                }}
+            />
+        )}
+    />
+);
 
 const TodosScreen = (props) => {
     const dispatch = useDispatch();
@@ -56,6 +55,7 @@ const TodosScreen = (props) => {
         { key: "completed", title: "Completed Tasks" },
     ]);
     const [index, setIndex] = React.useState(0);
+    const [error, setError] = useState();
 
     const PendingTab = () => {
         const pendingTodo = todos.filter((todo) => todo.isCompleted === false);
@@ -88,7 +88,7 @@ const TodosScreen = (props) => {
         try {
             await dispatch(todoActions.getTodos());
         } catch (error) {
-            console.log(error);
+            setError(error);
         }
     }, [dispatch]);
 
@@ -120,6 +120,10 @@ const TodosScreen = (props) => {
         setTodoId();
         setIsModalOpen(false);
     };
+
+    if (error) {
+        return <ErrorScreen />;
+    }
 
     return (
         <View style={styles.mainContainer}>

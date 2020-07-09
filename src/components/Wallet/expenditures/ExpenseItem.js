@@ -5,6 +5,7 @@ import { MaterialIcons } from "react-native-vector-icons";
 import PropTypes from "prop-types";
 
 import * as expenditureAction from "../../../redux/actions/expenditureActions";
+import errorText from "../../../constants/errorText";
 
 const ExpenseItem = (props) => {
     const dispatch = useDispatch();
@@ -22,7 +23,9 @@ const ExpenseItem = (props) => {
                 )
             );
         } catch (error) {
-            console.log(error);
+            Alert.alert(errorText.submit.title, errorText.submit.message, [
+                { text: "Okay" },
+            ]);
         }
     };
 
@@ -30,11 +33,9 @@ const ExpenseItem = (props) => {
         try {
             await dispatch(expenditureAction.deleteExpenditure(props.id));
         } catch (error) {
-            Alert.alert(
-                "Something went wrong",
-                "Please try again after some time or report this bug",
-                [{ text: "Okay" }]
-            );
+            Alert.alert(errorText.submit.title, errorText.submit.message, [
+                { text: "Okay" },
+            ]);
         }
     };
 
