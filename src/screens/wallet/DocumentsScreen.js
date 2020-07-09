@@ -80,3 +80,9 @@ const styles = StyleSheet.create({
         margin: 5,
     },
 });
+
+export const screenOptions = () => {
+    return {
+        headerTitle: "Documents",
+    };
+};

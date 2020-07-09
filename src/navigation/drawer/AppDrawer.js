@@ -1,7 +1,11 @@
 import React from "react";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 
-import { momentScreenTab, walletScreenTab } from "../tab/AppTab";
+import {
+    momentScreenTab,
+    walletScreenTab,
+    barcodeScreenTab,
+} from "../tab/AppTab";
 import { defaultDrawerContentOptions } from "./defaultOptions";
 import { defaultOptions } from "../drawer/defaultOptions";
 
@@ -22,6 +26,15 @@ const AppDrawer = () => {
                 name="Wallet"
                 component={walletScreenTab}
                 options={defaultOptions.bind(this, "Wallet", "ios-wallet")}
+            />
+            <Drawer.Screen
+                name="Barcode"
+                component={barcodeScreenTab}
+                options={defaultOptions.bind(
+                    this,
+                    "Barcode Scanner",
+                    "ios-barcode"
+                )}
             />
         </Drawer.Navigator>
     );

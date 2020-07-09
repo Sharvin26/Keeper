@@ -8,7 +8,9 @@ import MomentsScreen, {
 import MomentDetailsScreen, {
     screenOptions as MomentDetailsScreenOption,
 } from "../../screens/moment/MomentDetailsScreen";
-import MomentImageScreen from "../../screens/moment/MomentImageScreen";
+import MomentImageScreen, {
+    screenOptions as MomentImageScreenOption,
+} from "../../screens/moment/MomentImageScreen";
 
 const MomentStackNavigator = createStackNavigator();
 
@@ -28,6 +30,7 @@ const MomentStack = () => {
             <MomentStackNavigator.Screen
                 name="MomentImage"
                 component={MomentImageScreen}
+                options={MomentImageScreenOption}
             />
         </MomentStackNavigator.Navigator>
     );

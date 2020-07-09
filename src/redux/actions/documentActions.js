@@ -14,7 +14,6 @@ export const getDocument = () => {
     return async (dispatch) => {
         try {
             const dbResult = await fetchDocument();
-            console.log(dbResult.rows._array);
             dispatch({
                 type: GET_PDF,
                 documents: dbResult.rows._array,

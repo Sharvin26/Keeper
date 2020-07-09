@@ -12,6 +12,8 @@ export const defaultScreenOptions = (route) => ({
             iconName = "ios-person";
         } else if (route.route.name === "Wallet") {
             iconName = "md-wallet";
+        } else if (route.route.name === "Barcode") {
+            iconName = "ios-barcode";
         }
         return <Ionicons name={iconName} size={30} color={colors.primary} />;
     },

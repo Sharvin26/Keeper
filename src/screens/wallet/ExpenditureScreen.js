@@ -245,3 +245,9 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
 });
+
+export const screenOptions = () => {
+    return {
+        headerTitle: "Expenditures",
+    };
+};

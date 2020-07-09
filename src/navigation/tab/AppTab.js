@@ -5,6 +5,7 @@ import MomentStack from "../stacks/MomentStack";
 import UserStack from "../stacks/UserStack";
 import { defaultScreenOptions, defaultTabBarOptions } from "./defaultOptions";
 import WalletStack from "../stacks/WalletStack";
+import BarcodeStack from "../stacks/BarcodeStack";
 
 const TabNavigator = createBottomTabNavigator();
 
@@ -27,6 +28,18 @@ export const walletScreenTab = () => {
             tabBarOptions={defaultTabBarOptions}
         >
             <TabNavigator.Screen name="Wallet" component={WalletStack} />
+            <TabNavigator.Screen name="User" component={UserStack} />
+        </TabNavigator.Navigator>
+    );
+};
+
+export const barcodeScreenTab = () => {
+    return (
+        <TabNavigator.Navigator
+            screenOptions={defaultScreenOptions}
+            tabBarOptions={defaultTabBarOptions}
+        >
+            <TabNavigator.Screen name="Barcode" component={BarcodeStack} />
             <TabNavigator.Screen name="User" component={UserStack} />
         </TabNavigator.Navigator>
     );

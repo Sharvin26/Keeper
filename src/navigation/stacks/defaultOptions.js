@@ -7,7 +7,7 @@ export const defaultOptions = (props) => {
         headerTitle: "Keeper",
         headerTitleAlign: "center",
         headerTitleStyle: {
-            fontSize: 28,
+            fontSize: 26,
             fontFamily: "open-sans-bold",
         },
         headerLeft: () => (

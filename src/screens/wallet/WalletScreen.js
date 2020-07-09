@@ -48,3 +48,9 @@ const styles = StyleSheet.create({
         marginHorizontal: 10,
     },
 });
+
+export const screenOptions = () => {
+    return {
+        headerTitle: "Wallet",
+    };
+};

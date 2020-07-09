@@ -21,7 +21,7 @@ import CustomTextInput from "../UI/CustomTextInput";
 import colors from "../../constants/colors";
 import CustomIcons from "../UI/CustomIcons";
 
-const keeperScheme = yup.object({
+const MomentScheme = yup.object({
     title: yup.string().required().min(4),
     description: yup.string().required().min(20),
     image: yup.string().required(),
@@ -29,26 +29,26 @@ const keeperScheme = yup.object({
 
 const ManageMoment = (props) => {
     const dispatch = useDispatch();
-    const keeperId = props.id ? props.id : null;
-    const editKeeper = useSelector((state) =>
-        state.moments.moments.find((doc) => doc.id === keeperId)
+    const momentId = props.id ? props.id : null;
+    const editMoment = useSelector((state) =>
+        state.moments.moments.find((doc) => doc.id === momentId)
     );
     const initialValues = {
-        title: editKeeper ? editKeeper.title : "",
-        description: editKeeper ? editKeeper.description : "",
-        image: editKeeper ? editKeeper.image : "",
+        title: editMoment ? editMoment.title : "",
+        description: editMoment ? editMoment.description : "",
+        image: editMoment ? editMoment.image : "",
     };
 
     const onSubmit = async (values) => {
         try {
-            if (keeperId) {
+            if (momentId) {
                 let isImageChanged = false;
-                if (values.image !== editKeeper.image) {
+                if (values.image !== editMoment.image) {
                     isImageChanged = true;
                 }
                 await dispatch(
                     momentActions.editMoment(
-                        keeperId,
+                        momentId,
                         values.title,
                         values.image,
                         new Date().toISOString(),
@@ -95,7 +95,7 @@ const ManageMoment = (props) => {
                     >
                         <Formik
                             initialValues={initialValues}
-                            validationSchema={keeperScheme}
+                            validationSchema={MomentScheme}
                             onSubmit={onSubmit}
                         >
                             {(props) => (
@@ -108,7 +108,7 @@ const ManageMoment = (props) => {
                                             size={30}
                                         />
                                         <Text style={styles.headerText}>
-                                            {keeperId
+                                            {momentId
                                                 ? "Edit a Moment"
                                                 : "Add a Moment"}
                                         </Text>
