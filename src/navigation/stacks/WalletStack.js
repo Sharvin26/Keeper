@@ -2,31 +2,50 @@ import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 
 import { defaultOptions } from "./defaultOptions";
-import WalletScreen from "../../screens/wallet/WalletScreen";
+import WalletScreen, {
+    screenOptions as WalletScreenOptions,
+} from "../../screens/wallet/WalletScreen";
 import CardScreen from "../../screens/wallet/CardScreen";
-import ExpenditureScreen from "../../screens/wallet/ExpenditureScreen";
-import DocumentsScreen from "../../screens/wallet/DocumentsScreen";
-import TodosScreen from "../../screens/wallet/TodosScreen";
+import DocumentsScreen, {
+    screenOptions as DocumentsScreenOptions,
+} from "../../screens/wallet/DocumentsScreen";
+import ExpenditureScreen, {
+    screenOptions as ExpenditureScreenOptions,
+} from "../../screens/wallet/ExpenditureScreen";
+import TodosScreen, {
+    screenOptions as TodosScreenOptions,
+} from "../../screens/wallet/TodosScreen";
 
 const WallStackNavigator = createStackNavigator();
 
 const WalletStack = () => {
     return (
         <WallStackNavigator.Navigator screenOptions={defaultOptions}>
-            <WallStackNavigator.Screen name="Wallet" component={WalletScreen} />
+            <WallStackNavigator.Screen
+                name="Wallet"
+                component={WalletScreen}
+                options={WalletScreenOptions}
+            />
             <WallStackNavigator.Screen
                 name="UserCards"
                 component={CardScreen}
+                options={WalletScreenOptions}
             />
             <WallStackNavigator.Screen
                 name="Expenditure"
                 component={ExpenditureScreen}
+                options={ExpenditureScreenOptions}
             />
             <WallStackNavigator.Screen
                 name="Documents"
                 component={DocumentsScreen}
+                options={DocumentsScreenOptions}
             />
-            <WallStackNavigator.Screen name="Todos" component={TodosScreen} />
+            <WallStackNavigator.Screen
+                name="Todos"
+                component={TodosScreen}
+                options={TodosScreenOptions}
+            />
         </WallStackNavigator.Navigator>
     );
 };

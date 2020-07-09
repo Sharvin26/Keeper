@@ -154,3 +154,9 @@ const styles = StyleSheet.create({
         fontFamily: "open-sans-bold",
     },
 });
+
+export const screenOptions = () => {
+    return {
+        headerTitle: "Todos",
+    };
+};

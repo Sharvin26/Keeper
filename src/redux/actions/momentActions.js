@@ -89,7 +89,7 @@ export const editMoment = (
                 },
             });
         } catch (error) {
-            throw keeper;
+            throw error;
         }
     };
 };

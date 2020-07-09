@@ -178,6 +178,6 @@ const styles = StyleSheet.create({
 
 export const screenOptions = () => {
     return {
-        headerTitle: "Keeper",
+        headerTitle: "Moments",
     };
 };

@@ -6,7 +6,7 @@ export const initDocuments = async () =>
     );
 
 export const fetchDocument = async () =>
-    await dbTemplate("SELECT * from Documents");
+    await dbTemplate("SELECT * FROM Documents");
 
 export const insertDocument = async (label, pdfUri, date) =>
     await dbTemplate(

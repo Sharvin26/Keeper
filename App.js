@@ -12,6 +12,7 @@ import { initMoments } from "./src/database/momentsDb";
 import { initExpenditures } from "./src/database/expendituresDb";
 import { initTodos } from "./src/database/todosDb";
 import { initDocuments } from "./src/database/documentsDb";
+import { initBarcodeDocuments } from "./src/database/barcodeDb";
 
 import { YellowBox } from "react-native";
 import _ from "lodash";
@@ -45,6 +46,12 @@ const initDatabase = () => {
         });
 
     initDocuments()
+        .then(() => {})
+        .catch((error) => {
+            throw error;
+        });
+
+    initBarcodeDocuments()
         .then(() => {})
         .catch((error) => {
             throw error;
