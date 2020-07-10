@@ -1,9 +1,8 @@
 import React from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity } from "react-native";
 import { useDispatch } from "react-redux";
 import { MaterialIcons } from "react-native-vector-icons";
 import PDFReader from "rn-pdf-reader-js";
-import { WebView } from "react-native-webview";
 import * as documentActions from "../../../redux/actions/documentActions";
 
 const DocumentItem = (props) => {

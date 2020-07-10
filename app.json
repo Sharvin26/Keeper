@@ -1,30 +1,27 @@
 {
-  "expo": {
-    "name": "Keeper",
-    "slug": "Keeper",
-    "platforms": [
-      "ios",
-      "android",
-      "web"
-    ],
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
-    "updates": {
-      "fallbackToCacheTimeout": 0
-    },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
-    "ios": {
-      "supportsTablet": true
-    },
-    "description": "",
-    "githubUrl": "https://github.com/Sharvin26/Keeper"
-  }
+    "expo": {
+        "name": "Keeper",
+        "slug": "Keeper",
+        "platforms": ["ios", "android", "web"],
+        "version": "1.0.0",
+        "orientation": "portrait",
+        "icon": "./assets/icon.png",
+        "splash": {
+            "image": "./assets/splash.png",
+            "resizeMode": "cover",
+            "backgroundColor": "#ffffff"
+        },
+        "updates": {
+            "fallbackToCacheTimeout": 0
+        },
+        "assetBundlePatterns": ["**/*"],
+        "ios": {
+            "supportsTablet": true
+        },
+        "description": "",
+        "githubUrl": "https://github.com/Sharvin26/Keeper",
+        "android": {
+            "package": "com.sharvin26.Keeper"
+        }
+    }
 }
