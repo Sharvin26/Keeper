@@ -22,9 +22,17 @@ const PasswordBox = (props) => {
     const thirdPasswordConfirmInputRef = useRef(null);
     const fourthPasswordConfirmInputRef = useRef(null);
 
+    // Registring Password
     const [password, setPassword] = useState([]);
     const [confirmPassword, setConfirmPassword] = useState([]);
+    const [passwordResetHint, setPasswordResetHint] = useState();
+
+    // Validating Password
     const [userPassword, setUserPassword] = useState(false);
+    const [userResetHint, setUserResetHint] = useState();
+    const [userClickedReset, setUserClickedReset] = useState(false);
+    const [userEnteredHint, setUserEnteredHint] = useState();
+
     const [error, setError] = useState();
 
     const refCallback = (textInputRef) => (node) => {
@@ -37,9 +45,13 @@ const PasswordBox = (props) => {
 
     const _retrievePassword = async () => {
         try {
-            const value = await SecureStore.getItemAsync("password");
-            if (value !== null) {
-                setUserPassword(value);
+            const passwordValue = await SecureStore.getItemAsync("password");
+            const resetHint = await SecureStore.getItemAsync(
+                "passwordResetHint"
+            );
+            if (passwordValue !== null && resetHint !== null) {
+                setUserPassword(passwordValue);
+                setUserResetHint(resetHint);
             }
         } catch (error) {
             setError("Something Went Wrong");
@@ -47,10 +59,21 @@ const PasswordBox = (props) => {
     };
 
     const validatePassword = async () => {
-        if (isEqual(JSON.stringify(password), userPassword)) {
-            props.passwordHandler(password);
+        if (userClickedReset) {
+            setError();
+            if (userEnteredHint === JSON.parse(userResetHint)) {
+                setPassword([]);
+                setUserResetHint(false);
+                setUserPassword(false);
+            } else {
+                setError("Please enter a valid hint");
+            }
         } else {
-            setError("Password you entered is wrong");
+            if (isEqual(JSON.stringify(password), userPassword)) {
+                props.passwordHandler(password);
+            } else {
+                setError("Password you entered is wrong");
+            }
         }
     };
 
@@ -65,12 +88,25 @@ const PasswordBox = (props) => {
         }
     };
 
+    const _storeHint = async (hint) => {
+        try {
+            await SecureStore.setItemAsync(
+                "passwordResetHint",
+                JSON.stringify(hint)
+            );
+        } catch (error) {
+            setError("Something Went Wrong");
+        }
+    };
+
     const handleSubmit = () => {
         if (
             password.length === 4 &&
             password.filter((item) => item === "").length === 0 &&
-            isEqual(password, confirmPassword)
+            isEqual(password, confirmPassword) &&
+            passwordResetHint.length > 0
         ) {
+            _storeHint(passwordResetHint);
             _storePassword(password);
             props.passwordHandler(password);
         } else {
@@ -116,6 +152,16 @@ const PasswordBox = (props) => {
                 }
             }
         };
+    };
+
+    const hintHandleChange = (value) => {
+        setError();
+        setPasswordResetHint(value);
+    };
+
+    const validateHint = (value) => {
+        setError();
+        setUserEnteredHint(value);
     };
 
     const passwordHandleChange = (index) => {
@@ -185,6 +231,47 @@ const PasswordBox = (props) => {
                         />
                     ))}
                 </View>
+                {userResetHint && (
+                    <View style={{ paddingTop: 35 }}>
+                        <Text
+                            style={{
+                                fontSize: 20,
+                                fontFamily: "open-sans-bold",
+                            }}
+                            onPress={() =>
+                                setUserClickedReset(!userClickedReset)
+                            }
+                        >
+                            Reset Password?
+                        </Text>
+                        {userClickedReset && (
+                            <View style={{ paddingTop: 10 }}>
+                                <Text
+                                    style={{
+                                        fontSize: 14,
+                                        fontFamily: "open-sans",
+                                    }}
+                                >
+                                    Enter the hint:
+                                </Text>
+                                <TextInput
+                                    style={{
+                                        borderBottomWidth: 1,
+                                        borderBottomColor: "#ccc",
+                                        width: "90%",
+                                        paddingTop: 10,
+                                        textAlign: "center",
+                                    }}
+                                    value={userEnteredHint}
+                                    maxLength={10}
+                                    onChangeText={(value) =>
+                                        validateHint(value)
+                                    }
+                                />
+                            </View>
+                        )}
+                    </View>
+                )}
             </View>
             {!userPassword && (
                 <View>
@@ -217,6 +304,15 @@ const PasswordBox = (props) => {
                             ))}
                         </View>
                     </View>
+                    <Text style={{ ...styles.passwordText, paddingTop: 25 }}>
+                        Enter a hint to reset password
+                    </Text>
+                    <TextInput
+                        style={styles.hintInput}
+                        maxLength={10}
+                        value={passwordResetHint}
+                        onChangeText={(value) => hintHandleChange(value)}
+                    />
                 </View>
             )}
             {error && <Text style={styles.errorText}>{error}</Text>}
@@ -256,13 +352,21 @@ const styles = StyleSheet.create({
         fontSize: 20,
         paddingBottom: 10,
     },
-
-    submitIconContainer: { alignItems: "center", paddingTop: 20 },
+    submitIconContainer: { alignItems: "center", paddingTop: 15 },
     errorText: {
         color: "red",
         textAlign: "center",
         paddingTop: 10,
         fontSize: 16,
         fontFamily: "open-sans-bold",
+    },
+    hintInput: {
+        width: "90%",
+        marginHorizontal: 20,
+        borderBottomWidth: 3,
+        borderBottomColor: "black",
+        fontSize: 20,
+        paddingBottom: 10,
+        textAlign: "center",
     },
 });
