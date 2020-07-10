@@ -33,7 +33,7 @@ const ManageDocuments = (props) => {
     };
 
     const closeModal = () => {
-        setPdf(null);
+        setPdf("");
         props.closeModal();
     };
 
@@ -46,7 +46,7 @@ const ManageDocuments = (props) => {
                     new Date().toISOString()
                 )
             );
-            props.closeModal();
+            closeModal();
         } catch (error) {
             console.log(error);
         }

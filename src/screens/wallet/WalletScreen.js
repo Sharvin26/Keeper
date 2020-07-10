@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { StyleSheet, View } from "react-native";
 import WalletCard from "../../components/Wallet/cards/WalletCard";
 
@@ -8,6 +8,8 @@ const documents = require("../../../assets/wallet/documents.png");
 const todo = require("../../../assets/wallet/todo.png");
 
 const WalletScreen = (props) => {
+    useEffect(() => {}, []);
+
     return (
         <View>
             <View style={styles.container}>

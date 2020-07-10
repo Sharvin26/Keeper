@@ -17,6 +17,7 @@ import { initBarcodeDocuments } from "./src/database/barcodeDb";
 import { YellowBox } from "react-native";
 import _ from "lodash";
 import ErrorScreen from "./src/components/UI/ErrorScreen";
+import PasswordBox from "./src/components/PasswordBox";
 
 YellowBox.ignoreWarnings(["componentWillReceiveProps"]);
 const _console = _.clone(console);
@@ -67,6 +68,7 @@ const fetchFonts = () => {
 
 const App = () => {
     const [isFontLoaded, setIsFontLoaded] = useState(false);
+    const [isPasswordValid, setIsPasswordValid] = useState();
 
     try {
         initDatabase();
@@ -85,10 +87,20 @@ const App = () => {
         );
     }
 
+    const passwordHandler = (password) => {
+        if (password) {
+            setIsPasswordValid(true);
+        }
+    };
+
     return (
         <Provider store={store}>
             <ActionSheetProvider>
-                <AppNavigator />
+                {isPasswordValid ? (
+                    <AppNavigator />
+                ) : (
+                    <PasswordBox passwordHandler={passwordHandler} />
+                )}
             </ActionSheetProvider>
         </Provider>
     );

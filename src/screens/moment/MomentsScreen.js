@@ -181,7 +181,7 @@ const MomentsScreen = (props) => {
                     Seems you haven't added any document yet.
                 </Text>
                 <Text style={styles.hintScreenText}>
-                    Hint: Add document by clicking on (+) plus icon
+                    Hint: Add a Moment by clicking on (+) plus icon
                 </Text>
             </View>
         );
