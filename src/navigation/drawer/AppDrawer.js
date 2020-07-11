@@ -1,4 +1,5 @@
 import React from "react";
+import { Platform } from "react-native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 
 import {
@@ -6,6 +7,7 @@ import {
     walletScreenTab,
     barcodeScreenTab,
 } from "../tab/AppTab";
+import SettingStack from "../stacks/SettingStack";
 import { defaultDrawerContentOptions } from "./defaultOptions";
 import { defaultOptions } from "../drawer/defaultOptions";
 
@@ -20,12 +22,20 @@ const AppDrawer = () => {
             <Drawer.Screen
                 name="Moments"
                 component={momentScreenTab}
-                options={defaultOptions.bind(this, "Moments", "md-photos")}
+                options={defaultOptions.bind(
+                    this,
+                    "Moments",
+                    Platform.OS === "android" ? "md-images" : "ios-images"
+                )}
             />
             <Drawer.Screen
                 name="Wallet"
                 component={walletScreenTab}
-                options={defaultOptions.bind(this, "Wallet", "ios-wallet")}
+                options={defaultOptions.bind(
+                    this,
+                    "Wallet",
+                    Platform.OS === "android" ? "md-wallet" : "ios-wallet"
+                )}
             />
             <Drawer.Screen
                 name="Barcode"
@@ -33,7 +43,16 @@ const AppDrawer = () => {
                 options={defaultOptions.bind(
                     this,
                     "Barcode Scanner",
-                    "ios-barcode"
+                    Platform.OS === "android" ? "md-barcode" : "ios-barcode"
+                )}
+            />
+            <Drawer.Screen
+                name="Settings"
+                component={SettingStack}
+                options={defaultOptions.bind(
+                    this,
+                    "Settings",
+                    Platform.OS === "android" ? "md-settings" : "ios-settings"
                 )}
             />
         </Drawer.Navigator>

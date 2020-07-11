@@ -12,8 +12,10 @@ export const defaultDrawerContentOptions = {
 export const defaultOptions = (label, iconName) => {
     return {
         drawerLabel: () => (
-            <Text style={{ fontFamily: "open-sans-bold" }}>{label}</Text>
+            <Text style={{ fontFamily: "open-sans-bold", fontSize: 16 }}>
+                {label}
+            </Text>
         ),
-        drawerIcon: () => <Ionicons name={iconName} size={23} />,
+        drawerIcon: () => <Ionicons name={iconName} size={30} />,
     };
 };

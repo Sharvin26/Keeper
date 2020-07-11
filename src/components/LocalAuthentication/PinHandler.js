@@ -10,8 +10,9 @@ import {
 import * as SecureStore from "expo-secure-store";
 import { Ionicons } from "@expo/vector-icons";
 import isEqual from "lodash/isEqual";
+import colors from "../../constants/colors";
 
-const PasswordBox = (props) => {
+const PinHandler = (props) => {
     const firstPasswordInputRef = useRef(null);
     const secondPasswordInputRef = useRef(null);
     const thirdPasswordInputRef = useRef(null);
@@ -22,10 +23,12 @@ const PasswordBox = (props) => {
     const thirdPasswordConfirmInputRef = useRef(null);
     const fourthPasswordConfirmInputRef = useRef(null);
 
+    const hintInputRef = useRef(null);
+
     // Registring Password
     const [password, setPassword] = useState([]);
     const [confirmPassword, setConfirmPassword] = useState([]);
-    const [passwordResetHint, setPasswordResetHint] = useState();
+    const [passwordResetHint, setPasswordResetHint] = useState("");
 
     // Validating Password
     const [userPassword, setUserPassword] = useState(false);
@@ -72,7 +75,7 @@ const PasswordBox = (props) => {
             if (isEqual(JSON.stringify(password), userPassword)) {
                 props.passwordHandler(password);
             } else {
-                setError("Password you entered is wrong");
+                setError("Pin you entered is wrong");
             }
         }
     };
@@ -206,9 +209,43 @@ const PasswordBox = (props) => {
         };
     };
 
+    const submitPasswordHandler = (index) => {
+        if (index === 0) {
+            secondPasswordInputRef.current.focus();
+        } else if (index === 1) {
+            thirdPasswordInputRef.current.focus();
+        } else if (index === 2) {
+            fourthPasswordInputRef.current.focus();
+        } else if (index === 3 && userPassword) {
+            validatePassword();
+        } else if (index === 3 && !userPassword) {
+            firstPasswordConfirmInputRef.current.focus();
+        }
+    };
+
+    const submitConfirmPasswordHandler = (index) => {
+        if (index === 0) {
+            secondPasswordConfirmInputRef.current.focus();
+        } else if (index === 1) {
+            thirdPasswordConfirmInputRef.current.focus();
+        } else if (index === 2) {
+            fourthPasswordConfirmInputRef.current.focus();
+        } else if (index === 3) {
+            hintInputRef.current.focus();
+        }
+    };
+
     return (
         <SafeAreaView style={styles.container}>
-            <Text style={styles.passwordText}>Enter your password</Text>
+            <View style={styles.submitIconContainer}>
+                <Ionicons
+                    name="ios-log-in"
+                    size={30}
+                    color="black"
+                    onPress={userPassword ? validatePassword : handleSubmit}
+                />
+            </View>
+            <Text style={styles.passwordText}>Enter your Pin</Text>
             <View style={styles.newPasswordContainer}>
                 <View style={styles.newPasswordBoxContainer}>
                     {[
@@ -228,6 +265,8 @@ const PasswordBox = (props) => {
                             onChangeText={passwordHandleChange(index)}
                             onKeyPress={onPasswordBackKeyPress(index)}
                             key={index}
+                            returnKeyType={index === 3 ? "done" : "next"}
+                            onSubmitEditing={() => submitPasswordHandler(index)}
                         />
                     ))}
                 </View>
@@ -242,7 +281,7 @@ const PasswordBox = (props) => {
                                 setUserClickedReset(!userClickedReset)
                             }
                         >
-                            Reset Password?
+                            Reset Pin?
                         </Text>
                         {userClickedReset && (
                             <View style={{ paddingTop: 10 }}>
@@ -276,7 +315,7 @@ const PasswordBox = (props) => {
             {!userPassword && (
                 <View>
                     <Text style={{ ...styles.passwordText, paddingTop: 25 }}>
-                        Enter your confirm password
+                        Confirm your Pin
                     </Text>
                     <View style={styles.newPasswordContainer}>
                         <View style={styles.newPasswordBoxContainer}>
@@ -300,35 +339,37 @@ const PasswordBox = (props) => {
                                         index
                                     )}
                                     key={index}
+                                    returnKeyType={
+                                        index === 3 ? "done" : "next"
+                                    }
+                                    onSubmitEditing={() =>
+                                        submitConfirmPasswordHandler(index)
+                                    }
                                 />
                             ))}
                         </View>
                     </View>
                     <Text style={{ ...styles.passwordText, paddingTop: 25 }}>
-                        Enter a hint to reset password
+                        Enter a hint to reset pin
                     </Text>
                     <TextInput
+                        ref={hintInputRef}
                         style={styles.hintInput}
                         maxLength={10}
                         value={passwordResetHint}
                         onChangeText={(value) => hintHandleChange(value)}
                     />
+                    <Text style={styles.hintText}>
+                        Note: Only 10 characters are allowed
+                    </Text>
                 </View>
             )}
             {error && <Text style={styles.errorText}>{error}</Text>}
-            <View style={styles.submitIconContainer}>
-                <Ionicons
-                    name="ios-log-in"
-                    size={30}
-                    color="black"
-                    onPress={userPassword ? validatePassword : handleSubmit}
-                />
-            </View>
         </SafeAreaView>
     );
 };
 
-export default PasswordBox;
+export default PinHandler;
 
 const styles = StyleSheet.create({
     container: { marginTop: 60 },
@@ -352,7 +393,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         paddingBottom: 10,
     },
-    submitIconContainer: { alignItems: "center", paddingTop: 15 },
+    submitIconContainer: { alignItems: "flex-end", paddingRight: 15 },
     errorText: {
         color: "red",
         textAlign: "center",
@@ -368,5 +409,12 @@ const styles = StyleSheet.create({
         fontSize: 20,
         paddingBottom: 10,
         textAlign: "center",
+    },
+    hintText: {
+        paddingTop: 25,
+        textAlign: "center",
+        fontFamily: "open-sans",
+        fontSize: 16,
+        color: colors.activeColor,
     },
 });

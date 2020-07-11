@@ -17,7 +17,8 @@ import { initBarcodeDocuments } from "./src/database/barcodeDb";
 import { YellowBox } from "react-native";
 import _ from "lodash";
 import ErrorScreen from "./src/components/UI/ErrorScreen";
-import PasswordBox from "./src/components/PasswordBox";
+import PinHandler from "./src/components/LocalAuthentication/PinHandler";
+import LocalAuthenticationHandler from "./src/components/LocalAuthentication/LocalAuthenticationHandler";
 
 YellowBox.ignoreWarnings(["componentWillReceiveProps"]);
 const _console = _.clone(console);
@@ -99,7 +100,9 @@ const App = () => {
                 {isPasswordValid ? (
                     <AppNavigator />
                 ) : (
-                    <PasswordBox passwordHandler={passwordHandler} />
+                    <LocalAuthenticationHandler
+                        passwordHandler={passwordHandler}
+                    />
                 )}
             </ActionSheetProvider>
         </Provider>
