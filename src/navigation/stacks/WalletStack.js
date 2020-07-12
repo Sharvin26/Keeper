@@ -5,7 +5,9 @@ import { defaultOptions } from "./defaultOptions";
 import WalletScreen, {
     screenOptions as WalletScreenOptions,
 } from "../../screens/wallet/WalletScreen";
-import CardScreen from "../../screens/wallet/CardScreen";
+import CardScreen, {
+    screenOptions as CardScreenOptions,
+} from "../../screens/wallet/CardScreen";
 import DocumentsScreen, {
     screenOptions as DocumentsScreenOptions,
 } from "../../screens/wallet/DocumentsScreen";
@@ -29,7 +31,7 @@ const WalletStack = () => {
             <WallStackNavigator.Screen
                 name="UserCards"
                 component={CardScreen}
-                options={WalletScreenOptions}
+                options={CardScreenOptions}
             />
             <WallStackNavigator.Screen
                 name="Expenditure"

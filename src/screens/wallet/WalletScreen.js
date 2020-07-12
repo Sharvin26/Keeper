@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { StyleSheet, View } from "react-native";
-import WalletCard from "../../components/Wallet/cards/WalletCard";
+import WalletCard from "../../components/Wallet/WalletCard";
 
 const cardImage = require("../../../assets/wallet/card.png");
 const expenditure = require("../../../assets/wallet/expenditure.png");

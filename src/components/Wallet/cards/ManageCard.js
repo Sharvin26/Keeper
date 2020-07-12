@@ -1,225 +1,292 @@
-// import React, { useState } from "react";
-// import {
-//     StyleSheet,
-//     Text,
-//     View,
-//     Modal,
-//     SafeAreaView,
-//     TextInput,
-// } from "react-native";
+import React, { useRef, useState } from "react";
+import {
+    StyleSheet,
+    Text,
+    View,
+    Modal,
+    SafeAreaView,
+    TextInput,
+} from "react-native";
+import { useSelector, useDispatch } from "react-redux";
 
-// import { useDispatch } from "react-redux";
+import * as cardActions from "../../../redux/actions/cardActions";
+import CustomIcons from "../../UI/CustomIcons";
+import colors from "../../../constants/colors";
 
-// import * as walletActions from "../../redux/actions/WalletActions";
-// import CustomIcons from "../UI/CustomIcons";
-// import colors from "../../constants/colors";
-// import { LiteCreditCardInput } from "react-native-credit-card-input";
+const ManageCard = (props) => {
+    const dispatch = useDispatch();
 
-// const ManageCard = (props) => {
-//     const dispatch = useDispatch();
-//     const [errors, setErrors] = useState();
-//     const [formErrors, setFormErrors] = useState();
-//     const [cardName, setCardName] = useState("");
-//     const [cardDetails, setCardDetails] = useState({
-//         cardNumber: "",
-//         cardExpiry: "",
-//         cardCvv: "",
-//         cardType: "",
-//     });
-//     const [cardDescritpion, setCardDescritpion] = useState("");
-//     const closeModal = () => {
-//         setCardName("");
-//         setCardDescritpion("");
-//         setErrors(null);
-//         props.closeManageModal();
-//     };
+    const cardData = useSelector((state) =>
+        state.cards.cards.find((c) => c.id === props.id)
+    );
 
-//     const onChange = (form) => {
-//         if (
-//             form.status.number === "invalid" ||
-//             form.status.expiry === "invalid" ||
-//             form.status.cvc === "invalid" ||
-//             form.values.number.charAt(0) == 6
-//         ) {
-//             setErrors("Invalid card details");
-//         } else if (
-//             form.status.number === "incomplete" &&
-//             form.values.number < 18
-//         ) {
-//             setErrors(null);
-//             setCardDetails({
-//                 cardNumber: form.values.number,
-//                 cardCvv: form.values.cvc,
-//                 cardExpiry: form.values.expiry,
-//                 cardType: form.values.type,
-//             });
-//         } else {
-//             setErrors(null);
-//             setCardDetails({
-//                 cardNumber: form.values.number,
-//                 cardCvv: form.values.cvc,
-//                 cardExpiry: form.values.expiry,
-//                 cardType: form.values.type,
-//             });
-//         }
-//     };
+    const [cardName, setCardName] = useState(cardData ? cardData.cardName : "");
+    const [cardNumber, setCardNumber] = useState(
+        cardData ? cardData.cardNumber : ""
+    );
+    const [cardExpiry, setCardExpiry] = useState(
+        cardData ? cardData.cardExpiry : ""
+    );
+    const [cardCvv, setCardCvv] = useState(cardData ? cardData.cardCvv : "");
+    const [error, setError] = useState();
 
-//     const handleError = () => {
-//         if (
-//             cardName === "" ||
-//             cardDescritpion === "" ||
-//             cardDetails.cardType === "" ||
-//             cardDetails.cardCvv.length < 3 ||
-//             cardDetails.cardNumber.length < 19 ||
-//             cardDetails.cardExpiry.length < 4 ||
-//             errors
-//         ) {
-//             setFormErrors("All the fields are required. Please complete them.");
-//             return false;
-//         }
-//         setFormErrors(null);
-//         return true;
-//     };
+    const cardNumberRef = useRef();
+    const cardExpiryRef = useRef();
+    const cardCvvRef = useRef();
 
-//     const handleSubmit = async () => {
-//         if (!handleError()) return;
-//         const userCard = {
-//             cardName: cardName,
-//             cardDescritpion: cardDescritpion,
-//             cardDetails: cardDetails,
-//         };
-//         try {
-//             await dispatch(walletActions.addCard(userCard));
-//         } catch (error) {
-//             setFormErrors(error.message);
-//         }
-//     };
+    const closeModal = () => {
+        setCardName("");
+        setCardNumber("");
+        setCardExpiry("");
+        setCardCvv("");
+        setError();
+        props.closeManageModal();
+    };
 
-//     return (
-//         <Modal visible={props.isManageCardEnable} onRequestClose={closeModal}>
-//             <SafeAreaView showsVerticalScrollIndicator={false}>
-//                 <View style={styles.container}>
-//                     <CustomIcons
-//                         iconHandler={closeModal}
-//                         name="md-arrow-back"
-//                         color={colors.primary}
-//                         size={30}
-//                     />
-//                     <Text style={styles.headerText}>Add a card</Text>
-//                     <CustomIcons
-//                         iconHandler={handleSubmit}
-//                         name="md-save"
-//                         color={colors.primary}
-//                         size={30}
-//                     />
-//                 </View>
-//                 <View style={styles.form}>
-//                     <View>
-//                         <Text style={{ ...styles.cardLabel, marginTop: 0 }}>
-//                             Card Name:
-//                         </Text>
-//                         <TextInput
-//                             placeholder="Start typing here"
-//                             autoFocus={true}
-//                             value={cardName}
-//                             onChangeText={(text) => setCardName(text)}
-//                             style={styles.cardName}
-//                         />
-//                     </View>
-//                     <Text style={styles.cardLabel}>Card Details:</Text>
-//                     <View style={styles.cardContainer}>
-//                         <LiteCreditCardInput
-//                             onChange={onChange}
-//                             additionalInputsProps={{
-//                                 number: {
-//                                     maxLength: 19,
-//                                 },
-//                             }}
-//                         />
-//                     </View>
-//                     <Text style={styles.cardHint}>
-//                         Hint: Please click on card icon if doesn't show cvv and
-//                         expiration date.
-//                     </Text>
-//                     {errors && <Text style={styles.errorText}>{errors}</Text>}
-//                     <View>
-//                         <Text style={styles.cardLabel}>Card Description:</Text>
-//                         <TextInput
-//                             value={cardDescritpion}
-//                             placeholder="Start typing here"
-//                             style={styles.description}
-//                             onChangeText={(text) => setCardDescritpion(text)}
-//                         />
-//                     </View>
-//                     {formErrors && (
-//                         <Text style={styles.errorText}>{formErrors}</Text>
-//                     )}
-//                 </View>
-//             </SafeAreaView>
-//         </Modal>
-//     );
-// };
+    const handleSubmit = () => {
+        if (
+            cardName.length !== 0 &&
+            cardNumber.length === 19 &&
+            cardExpiry.length === 7 &&
+            cardCvv.length === 3
+        ) {
+            try {
+                if (cardData) {
+                    dispatch(
+                        cardActions.updateCard(
+                            props.id,
+                            cardName,
+                            cardNumber,
+                            cardExpiry,
+                            cardCvv,
+                            new Date().toISOString()
+                        )
+                    );
+                } else {
+                    dispatch(
+                        cardActions.addCard(
+                            cardName,
+                            cardNumber,
+                            cardExpiry,
+                            cardCvv,
+                            new Date().toISOString()
+                        )
+                    );
+                }
+                closeModal();
+            } catch (error) {
+                setError("Something went wrong");
+            }
+        } else {
+            setError("Please fill in all the details ");
+        }
+    };
 
-// export default ManageCard;
+    const cardNameChangeHandler = (value) => {
+        setError();
+        setCardName(value);
+    };
 
-// const styles = StyleSheet.create({
-//     container: {
-//         padding: 20,
-//         flexDirection: "row",
-//         justifyContent: "space-between",
-//     },
-//     headerText: {
-//         fontFamily: "open-sans-bold",
-//         fontSize: 18,
-//         paddingTop: 4,
-//     },
-//     form: { margin: 20 },
-//     cardLabel: {
-//         marginBottom: 10,
-//         fontFamily: "open-sans-bold",
-//         marginTop: 10,
-//     },
-//     cardName: {
-//         borderColor: "#ccc",
-//         borderWidth: 1,
-//         padding: 16,
-//         marginBottom: 10,
-//     },
-//     cardContainer: {
-//         borderWidth: 1,
-//         borderColor: "#ccc",
-//         padding: 10,
-//     },
-//     cardHint: {
-//         textAlign: "center",
-//         paddingTop: 5,
-//         color: "#ccc",
-//         fontFamily: "open-sans",
-//     },
-//     errorText: {
-//         paddingTop: 10,
-//         color: "red",
-//         textAlign: "center",
-//         fontFamily: "open-sans-bold",
-//     },
-//     description: {
-//         borderColor: "#ccc",
-//         borderWidth: 1,
-//         padding: 16,
-//     },
-// });
+    const cardNumberChangeHandler = (value) => {
+        setError();
+        setCardNumber(
+            value
+                .replace(/\s?/g, "")
+                .replace(/(\d{4})/g, "$1 ")
+                .trim()
+        );
+        if (value.length === 19) {
+            cardExpiryRef.current.focus();
+        }
+    };
 
-import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+    const cardExpiryChangeHandler = (value) => {
+        setError();
+        if (value.indexOf(".") >= 0 || value.length > 7) {
+            return;
+        }
+        if (value.length === 2 && cardExpiry.length === 1) {
+            if (value <= 12 && value >= 1) {
+                value += "/";
+            } else {
+                setError("Add a valid Month");
+                return;
+            }
+        }
+        if (value.length === 7) {
+            const currentMonth = new Date().getMonth();
+            const currentYear = new Date().getFullYear();
+            const userEnteredMonth = value.slice(0, 2);
+            const userEnteredYear = value.slice(3, 7);
 
-const ManageCard = () => {
+            if (userEnteredYear === JSON.stringify(currentYear)) {
+                if (userEnteredMonth > currentMonth) {
+                    cardCvvRef.current.focus();
+                } else {
+                    setError("The card has already expired");
+                    return;
+                }
+            } else if (userEnteredYear < currentYear) {
+                setError("The card has already expired");
+                return;
+            } else if (userEnteredYear > currentYear) {
+                cardCvvRef.current.focus();
+            }
+        }
+        setCardExpiry(value);
+    };
+
+    const cardCvvChangeHandler = (value) => {
+        setError();
+        setCardCvv(value);
+    };
+
     return (
-        <View>
-            <Text></Text>
-        </View>
+        <Modal
+            visible={props.isManageCardEnable}
+            onRequestClose={closeModal}
+            animationType="slide"
+        >
+            <SafeAreaView>
+                <View style={styles.container}>
+                    <CustomIcons
+                        iconHandler={closeModal}
+                        name="md-arrow-back"
+                        color={colors.primary}
+                        size={30}
+                    />
+                    <Text style={styles.headerText}>
+                        {cardData ? "Update a Card" : "Add a card"}
+                    </Text>
+                    <CustomIcons
+                        iconHandler={handleSubmit}
+                        name="md-save"
+                        color={colors.primary}
+                        size={30}
+                    />
+                </View>
+                <Text style={styles.cardLabel}>Card Name: </Text>
+                <TextInput
+                    autoFocus={true}
+                    style={styles.cardText}
+                    value={cardName}
+                    onChangeText={(value) => cardNameChangeHandler(value)}
+                    onSubmitEditing={() => cardNumberRef.current.focus()}
+                    returnKeyType="next"
+                />
+                <Text style={styles.cardLabel}>Card number: </Text>
+                <TextInput
+                    ref={cardNumberRef}
+                    style={styles.cardText}
+                    keyboardType="numeric"
+                    value={cardNumber}
+                    onChangeText={(value) => cardNumberChangeHandler(value)}
+                    placeholder="0000 0000 0000 0000"
+                    maxLength={19}
+                    returnKeyType="next"
+                />
+                <View
+                    style={{
+                        flexDirection: "row",
+                        justifyContent: "center",
+                    }}
+                >
+                    <View style={styles.cardExpiryCvvContainer}>
+                        <Text style={styles.cardExpiryCvvLabel}>
+                            Card Expiry:
+                        </Text>
+                        <TextInput
+                            ref={cardExpiryRef}
+                            style={styles.cardExpiryCvvText}
+                            keyboardType="numeric"
+                            placeholder="MM/YYYY"
+                            maxLength={7}
+                            value={cardExpiry}
+                            onChangeText={(value) =>
+                                cardExpiryChangeHandler(value)
+                            }
+                            returnKeyType="next"
+                        />
+                    </View>
+                    <View style={styles.cardExpiryCvvContainer}>
+                        <Text style={styles.cardExpiryCvvLabel}>Card Cvv:</Text>
+                        <TextInput
+                            ref={cardCvvRef}
+                            style={styles.cardExpiryCvvText}
+                            keyboardType="numeric"
+                            placeholder="000"
+                            maxLength={3}
+                            value={cardCvv}
+                            onChangeText={(value) =>
+                                cardCvvChangeHandler(value)
+                            }
+                        />
+                    </View>
+                </View>
+                <Text style={styles.hintText}>
+                    Supported Card types are Visa, MasterCard and JCB.
+                </Text>
+                {error && <Text style={styles.errorText}>{error}</Text>}
+            </SafeAreaView>
+        </Modal>
     );
 };
 
 export default ManageCard;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+    container: {
+        padding: 20,
+        flexDirection: "row",
+        justifyContent: "space-between",
+    },
+    headerText: {
+        fontFamily: "open-sans-bold",
+        fontSize: 20,
+        paddingTop: 4,
+    },
+    cardLabel: {
+        fontSize: 18,
+        fontFamily: "open-sans-bold",
+        paddingLeft: 20,
+    },
+    cardText: {
+        borderBottomWidth: 2,
+        borderBottomColor: "black",
+        width: "90%",
+        height: 40,
+        textAlign: "center",
+        margin: 20,
+        fontFamily: "open-sans",
+        fontSize: 18,
+    },
+    cardExpiryCvvContainer: { width: "45%", padding: 10 },
+    cardExpiryCvvLabel: {
+        fontSize: 18,
+        fontFamily: "open-sans-bold",
+        textAlign: "center",
+    },
+    cardExpiryCvvText: {
+        borderBottomWidth: 2,
+        borderBottomColor: "black",
+        width: "100%",
+        height: 40,
+        textAlign: "center",
+        fontFamily: "open-sans",
+        fontSize: 18,
+        paddingTop: 10,
+    },
+    hintText: {
+        textAlign: "center",
+        color: colors.activeColor,
+        fontFamily: "open-sans-bold",
+        paddingTop: 15,
+    },
+    errorText: {
+        fontSize: 16,
+        fontFamily: "open-sans-bold",
+        color: "red",
+        textAlign: "center",
+        paddingTop: 15,
+    },
+});
