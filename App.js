@@ -13,11 +13,11 @@ import { initExpenditures } from "./src/database/expendituresDb";
 import { initTodos } from "./src/database/todosDb";
 import { initDocuments } from "./src/database/documentsDb";
 import { initBarcodeDocuments } from "./src/database/barcodeDb";
+import { initCards } from "./src/database/cardDb";
 
 import { YellowBox } from "react-native";
 import _ from "lodash";
 import ErrorScreen from "./src/components/UI/ErrorScreen";
-import PinHandler from "./src/components/LocalAuthentication/PinHandler";
 import LocalAuthenticationHandler from "./src/components/LocalAuthentication/LocalAuthenticationHandler";
 
 YellowBox.ignoreWarnings(["componentWillReceiveProps"]);
@@ -54,6 +54,12 @@ const initDatabase = () => {
         });
 
     initBarcodeDocuments()
+        .then(() => {})
+        .catch((error) => {
+            throw error;
+        });
+
+    initCards()
         .then(() => {})
         .catch((error) => {
             throw error;

@@ -7,7 +7,7 @@ export const defaultScreenOptions = (route) => ({
     tabBarIcon: () => {
         let iconName;
         if (route.route.name === "Moments") {
-            iconName = "ios-list-box";
+            iconName = "ios-images";
         } else if (route.route.name === "User") {
             iconName = "ios-person";
         } else if (route.route.name === "Wallet") {
