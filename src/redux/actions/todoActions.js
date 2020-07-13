@@ -10,6 +10,7 @@ export const GET_TODOS = "GET_TODOS";
 export const ADD_TODO = "ADD_TODO";
 export const UPDATE_TODO = "UPDATE_TODO";
 export const DELETE_TODO = "DELETE_TODO";
+export const SEARCH_TODOS = "SEARCH_TODOS";
 
 export const getTodos = () => {
     return async (dispatch) => {
@@ -91,4 +92,8 @@ export const deleteTodo = (id) => {
             throw error;
         }
     };
+};
+
+export const searchTodos = (value) => {
+    return async (dispatch) => dispatch({ type: SEARCH_TODOS, value });
 };

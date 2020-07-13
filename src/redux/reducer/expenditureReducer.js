@@ -1,14 +1,17 @@
-import Expenditure from "../../models/Expenditure";
-import sortDocs from "../../helpers/customSort";
 import {
     FETCH_EXPENDITURE,
     ADD_EXPENDITURE,
     UPDATE_EXPENDITURE,
     DELETE_EXPENDITURE,
+    SEARCH_EXPENDITURES,
 } from "../actions/expenditureActions";
+import Expenditure from "../../models/Expenditure";
+import { searchExpenditures } from "../../helpers/customSearch";
+import sortDocs from "../../helpers/customSort";
 
 const initialState = {
     expenditures: [],
+    searchExpenditures: [],
 };
 
 export default (state = initialState, action) => {
@@ -59,6 +62,15 @@ export default (state = initialState, action) => {
                 expenditures: state.expenditures.filter(
                     (expenseItem) => expenseItem.id !== action.id
                 ),
+            };
+        case SEARCH_EXPENDITURES:
+            const filteredExpenditueres = searchExpenditures(
+                state.expenditures,
+                action.value
+            );
+            return {
+                ...state,
+                searchExpenditures: filteredExpenditueres,
             };
         default:
             return state;

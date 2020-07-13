@@ -1,11 +1,11 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-import MomentStack from "../stacks/MomentStack";
-import UserStack from "../stacks/UserStack";
 import { defaultScreenOptions, defaultTabBarOptions } from "./defaultOptions";
+import MomentStack from "../stacks/MomentStack";
 import WalletStack from "../stacks/WalletStack";
 import BarcodeStack from "../stacks/BarcodeStack";
+import SearchScreen from "../../screens/searchbar/SearchScreen";
 
 const TabNavigator = createBottomTabNavigator();
 
@@ -16,7 +16,7 @@ export const momentScreenTab = () => {
             tabBarOptions={defaultTabBarOptions}
         >
             <TabNavigator.Screen name="Moments" component={MomentStack} />
-            <TabNavigator.Screen name="User" component={UserStack} />
+            <TabNavigator.Screen name="Search" component={SearchScreen} />
         </TabNavigator.Navigator>
     );
 };
@@ -28,7 +28,7 @@ export const walletScreenTab = () => {
             tabBarOptions={defaultTabBarOptions}
         >
             <TabNavigator.Screen name="Wallet" component={WalletStack} />
-            <TabNavigator.Screen name="User" component={UserStack} />
+            <TabNavigator.Screen name="Search" component={SearchScreen} />
         </TabNavigator.Navigator>
     );
 };
@@ -40,7 +40,7 @@ export const barcodeScreenTab = () => {
             tabBarOptions={defaultTabBarOptions}
         >
             <TabNavigator.Screen name="Barcode" component={BarcodeStack} />
-            <TabNavigator.Screen name="User" component={UserStack} />
+            <TabNavigator.Screen name="Search" component={SearchScreen} />
         </TabNavigator.Navigator>
     );
 };

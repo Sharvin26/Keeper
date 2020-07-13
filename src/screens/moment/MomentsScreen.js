@@ -89,7 +89,7 @@ const MomentsScreen = (props) => {
                         }
                         onPress={() => setIsManageEnabled(true)}
                     />
-                    <Item
+                    {/* <Item
                         title="Search"
                         iconName={
                             Platform.OS === "android"
@@ -97,7 +97,7 @@ const MomentsScreen = (props) => {
                                 : "ios-search"
                         }
                         onPress={() => setIsSearchEnabled(true)}
-                    />
+                    /> */}
                 </HeaderButtons>
             ),
         });

@@ -11,6 +11,7 @@ export const FETCH_EXPENDITURE = "FETCH_EXPENDITURE";
 export const ADD_EXPENDITURE = "ADD_EXPENDITURE";
 export const UPDATE_EXPENDITURE = "UPDATE_EXPENDITURE";
 export const DELETE_EXPENDITURE = "DELETE_EXPENDITURE";
+export const SEARCH_EXPENDITURES = "SEARCH_EXPENDITURES";
 
 export const GIVE_MONEY = "GIVE_MONEY";
 export const BORROW_MONEY = "BORROW_MONEY";
@@ -129,4 +130,8 @@ export const deleteExpenditure = (id) => {
             throw error;
         }
     };
+};
+
+export const searchExpenditures = (value) => {
+    return async (dispatch) => dispatch({ type: SEARCH_EXPENDITURES, value });
 };

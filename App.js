@@ -20,7 +20,7 @@ import _ from "lodash";
 import ErrorScreen from "./src/components/UI/ErrorScreen";
 import LocalAuthenticationHandler from "./src/components/LocalAuthentication/LocalAuthenticationHandler";
 
-YellowBox.ignoreWarnings(["componentWillReceiveProps"]);
+YellowBox.ignoreWarnings(["componentWillReceiveProps", "Require cycle:"]);
 const _console = _.clone(console);
 console.warn = (message) => {
     if (message.indexOf("componentWillReceiveProps") <= -1) {

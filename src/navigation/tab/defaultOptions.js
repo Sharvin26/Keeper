@@ -14,6 +14,8 @@ export const defaultScreenOptions = (route) => ({
             iconName = "md-wallet";
         } else if (route.route.name === "Barcode") {
             iconName = "ios-barcode";
+        } else if (route.route.name === "Search") {
+            iconName = "ios-search";
         }
         return <Ionicons name={iconName} size={30} color={colors.primary} />;
     },
@@ -22,4 +24,5 @@ export const defaultScreenOptions = (route) => ({
 export const defaultTabBarOptions = {
     activeBackgroundColor: colors.activeColor,
     showLabel: false,
+    keyboardHidesTabBar: true,
 };

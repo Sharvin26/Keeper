@@ -8,6 +8,7 @@ import {
 export const GET_BARCODE_DOCUMENT = "GET_BARCODE_DOCUMENT";
 export const ADD_BARCODE_DOCUMENT = "ADD_BARCODE_DOCUMENT";
 export const DELETE_BARCODE_DOCUMENT = "DELETE_BARCODE_DOCUMENT";
+export const SEARCH_BARCODE_DOCUMENT = "SEARCH_BARCODE_DOCUMENT";
 
 export const getBarcodeDocument = () => {
     return async (dispatch) => {
@@ -55,4 +56,9 @@ export const deleteBarcodeDocument = (id) => {
             throw error;
         }
     };
+};
+
+export const searchBarcodeDocument = (value) => {
+    return async (dispatch) =>
+        dispatch({ type: SEARCH_BARCODE_DOCUMENT, value });
 };
