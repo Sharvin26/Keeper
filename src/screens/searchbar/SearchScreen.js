@@ -58,7 +58,7 @@ const SearchScreen = (props) => {
         } else if (searchCategory === CARDS) {
             return state.cards.searchCards;
         } else if (searchCategory === DOCUMENTS) {
-            return state.documents.documents;
+            return state.documents.searchDocuments;
         } else if (searchCategory === TODOS) {
             return state.todos.searchTodos;
         } else if (searchCategory === EXPENDITURES) {
@@ -148,7 +148,7 @@ const SearchScreen = (props) => {
             dispatch(cardActions.searchCards(value));
             setIsFetching(false);
         } else if (searchCategory === DOCUMENTS) {
-            dispatch(documentActions.getDocument());
+            dispatch(documentActions.searchDocuments(value));
             setIsFetching(false);
         } else if (searchCategory === TODOS) {
             dispatch(todoActions.searchTodos(value));

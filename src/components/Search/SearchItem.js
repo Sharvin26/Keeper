@@ -118,13 +118,26 @@ const BarcodeDocumentSearch = (props) => {
     );
 };
 
+const DocumentSearch = (props) => {
+    return (
+        <View style={styles.mainContainer}>
+            <View style={documentStyles.container}>
+                <Text style={documentStyles.labelText}>
+                    {props.itemData.label}
+                </Text>
+            </View>
+        </View>
+    );
+};
+
 const SearchItem = (props) => {
     const [openModal, setOpenModal] = useState(false);
     const { searchCategory, itemData } = props;
 
-    const closeModal = (props) => {
+    const closeModal = () => {
         setOpenModal(false);
     };
+
     return (
         <View>
             {searchCategory === MOMENTS ? (
@@ -147,6 +160,10 @@ const SearchItem = (props) => {
             ) : searchCategory === BARCODE_DOCUMENTS ? (
                 <TouchableOpacity onPress={() => setOpenModal(true)}>
                     <BarcodeDocumentSearch itemData={itemData} />
+                </TouchableOpacity>
+            ) : searchCategory === DOCUMENTS ? (
+                <TouchableOpacity onPress={() => setOpenModal(true)}>
+                    <DocumentSearch itemData={itemData} />
                 </TouchableOpacity>
             ) : null}
             <SearchResultModal
@@ -173,6 +190,11 @@ export const NoSearchResult = (props) => {
 
 const styles = StyleSheet.create({
     mainContainer: { borderBottomWidth: 1, borderBottomColor: "black" },
+});
+
+const documentStyles = StyleSheet.create({
+    container: { padding: 20 },
+    labelText: { fontFamily: "open-sans", fontSize: 18 },
 });
 
 const emptyStyles = StyleSheet.create({

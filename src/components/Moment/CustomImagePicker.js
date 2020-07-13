@@ -65,7 +65,7 @@ const CustomImagePicker = (props) => {
             <View style={styles.buttonContainer}>
                 <CustomButton
                     style={styles.button}
-                    title="Use Gallery"
+                    title="Gallery"
                     onPress={takeImageHandler.bind(
                         this,
                         props.handleChange("image"),
@@ -74,7 +74,7 @@ const CustomImagePicker = (props) => {
                 />
                 <CustomButton
                     style={styles.button}
-                    title="Use Camera"
+                    title="Camera"
                     onPress={takeImageHandler.bind(
                         this,
                         props.handleChange("image"),

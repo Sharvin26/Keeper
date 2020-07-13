@@ -39,13 +39,15 @@ const ManageDocuments = (props) => {
 
     const onSubmit = (values) => {
         try {
-            dispatch(
-                documentActions.addDocument(
-                    values.label,
-                    values.pdfUri,
-                    new Date().toISOString()
-                )
-            );
+            props.id
+                ? dispatch()
+                : dispatch(
+                      documentActions.addDocument(
+                          values.label,
+                          values.pdfUri,
+                          new Date().toISOString()
+                      )
+                  );
             closeModal();
         } catch (error) {
             console.log(error);
@@ -125,6 +127,7 @@ const ManageDocuments = (props) => {
                                             source={{
                                                 uri: pdf,
                                             }}
+                                            withPinchZoom={true}
                                         />
                                         <View
                                             style={{

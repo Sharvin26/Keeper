@@ -14,18 +14,25 @@ export const searchCards = (cards, searchQuery) => {
     return filteredCards;
 };
 
-export const searchTodos = (todos, searchQuery) => {
-    const filteredTodos = _.filter(todos, (todo) =>
-        _.toLower(todo.task).includes(_.toLower(searchQuery))
-    );
-    return filteredTodos;
-};
-
 export const searchExpenditures = (expenditures, searchQuery) => {
     const filteredExpenditures = _.filter(expenditures, (expenditure) =>
         _.toLower(expenditure.name).includes(_.toLower(searchQuery))
     );
     return filteredExpenditures;
+};
+
+export const searchDocuments = (documents, searchQuery) => {
+    const filteredDocuments = _.filter(documents, (document) =>
+        _.toLower(document.label).includes(_.toLower(searchQuery))
+    );
+    return filteredDocuments;
+};
+
+export const searchTodos = (todos, searchQuery) => {
+    const filteredTodos = _.filter(todos, (todo) =>
+        _.toLower(todo.task).includes(_.toLower(searchQuery))
+    );
+    return filteredTodos;
 };
 
 export const searchBarcodeDocuments = (barcodeDocuments, searchQuery) => {
