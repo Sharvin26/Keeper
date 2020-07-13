@@ -1,15 +1,17 @@
 import React from "react";
-import { StyleSheet, Text, View, Modal, SafeAreaView } from "react-native";
+import { StyleSheet, View } from "react-native";
 import {
     CARDS,
     TODOS,
     EXPENDITURES,
     BARCODE_DOCUMENTS,
+    DOCUMENTS,
 } from "../../screens/searchbar/SearchScreen";
 import ManageTodo from "../Wallet/todos/ManageTodo";
 import CardItemView from "../Wallet/cards/CardItemView";
 import CustomWebView from "../Barcode/CustomWebView";
 import ManageExpense from "../Wallet/expenditures/ManageExpense";
+import DocumentItemView from "../Wallet/documents/DocumentItemView";
 
 const CardItemViewModal = (props) => (
     <CardItemView
@@ -49,6 +51,14 @@ const ExpenditureItemViewModal = (props) => (
     />
 );
 
+const DocumentItemViewModal = (props) => (
+    <DocumentItemView
+        pdfUri={props.itemData.pdfUri}
+        isViewModal={props.openModal}
+        closeViewModal={props.closeModal}
+    />
+);
+
 const SearchResultModal = (props) => {
     return (
         <View>
@@ -60,14 +70,14 @@ const SearchResultModal = (props) => {
                 <TodoItemViewModal {...props} />
             ) : props.searchCategory === EXPENDITURES ? (
                 <ExpenditureItemViewModal {...props} />
+            ) : props.searchCategory === DOCUMENTS ? (
+                <DocumentItemViewModal {...props} />
             ) : null}
         </View>
     );
 };
 
 export default SearchResultModal;
-
-const styles = StyleSheet.create({});
 
 const todoStyles = StyleSheet.create({
     modalContainer: {

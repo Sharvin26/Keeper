@@ -1,39 +1,60 @@
-import React from "react";
-import { StyleSheet, Text, TouchableOpacity } from "react-native";
+import React, { useState } from "react";
+import { StyleSheet, Text, TouchableOpacity, View, Alert } from "react-native";
 import { useDispatch } from "react-redux";
 import { MaterialIcons } from "react-native-vector-icons";
-import PDFReader from "rn-pdf-reader-js";
+
+import DocumentItemView from "../../../components/Wallet/documents/DocumentItemView";
+import ManageDocuments from "../../../components/Wallet/documents/ManageDocuments";
 import * as documentActions from "../../../redux/actions/documentActions";
 
 const DocumentItem = (props) => {
     const dispatch = useDispatch();
+    const [isViewVisible, setisViewVisible] = useState(false);
+    const [isManageVisible, setIsManageVisible] = useState(false);
 
-    const deleteHandler = () => {
+    const deleteDoc = () => {
         try {
-            dispatch(documentActions.deleteDocuments(props.id));
+            dispatch(documentActions.deleteDocument(props.id));
         } catch (error) {
             console.log(error);
         }
     };
+
+    const deleteHandler = () => {
+        Alert.alert(
+            "Are you sure?",
+            "Once deleted it cannot be restore again?",
+            [
+                { text: "Cancel", onPress: () => null, style: "cancel" },
+                { text: "Okay", onPress: deleteDoc(), style: "destructive" },
+            ]
+        );
+    };
+
     return (
-        <TouchableOpacity style={styles.container} activeOpacity={0}>
-            <PDFReader
-                style={styles.imageContainer}
-                source={{
-                    uri: props.pdfUri,
-                }}
-                webviewProps={{
-                    scrollEnabled: false,
-                }}
+        <TouchableOpacity
+            style={styles.container}
+            onPress={() => setisViewVisible(true)}
+        >
+            <Text style={styles.labelText}>{props.label}</Text>
+            <View style={styles.iconContainer}>
+                <MaterialIcons
+                    name="delete"
+                    style={styles.iconStyle}
+                    onPress={deleteHandler}
+                />
+            </View>
+            <DocumentItemView
+                {...props}
+                isViewModal={isViewVisible}
+                closeViewModal={() => setisViewVisible(false)}
             />
-            <Text style={styles.text}>{props.label}</Text>
-            <MaterialIcons
-                name="delete"
-                style={{
-                    fontSize: 28,
-                    textAlign: "center",
-                }}
-                onPress={() => deleteHandler()}
+            <ManageDocuments
+                id={props.id}
+                label={props.label}
+                pdfUri={props.pdfUri}
+                isModalOpen={isManageVisible}
+                closeModal={() => setIsManageVisible(false)}
             />
         </TouchableOpacity>
     );
@@ -43,23 +64,20 @@ export default DocumentItem;
 
 const styles = StyleSheet.create({
     container: {
-        width: "45%",
-        height: 230,
-        margin: 10,
-        borderRadius: 10,
+        borderBottomWidth: 1,
+        borderBottomColor: "black",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
     },
-    imageContainer: {
-        width: "100%",
-        height: "100%",
-        justifyContent: "flex-end",
-        borderRadius: 10,
-        overflow: "hidden",
-    },
-    text: {
+    labelText: {
+        padding: 20,
+        fontSize: 16,
         fontFamily: "open-sans-bold",
-        textAlign: "center",
-        fontSize: 18,
-        color: "black",
-        padding: 5,
+    },
+    iconContainer: { flexDirection: "row" },
+    iconStyle: {
+        fontSize: 28,
+        margin: 5,
     },
 });

@@ -52,21 +52,18 @@ const DocumentsScreen = (props) => {
                 isModalOpen={isModalOpen}
                 closeModal={closeModal}
             />
-            <View>
-                <FlatList
-                    numColumns={2}
-                    showsVerticalScrollIndicator={false}
-                    data={documents}
-                    keyExtractor={(item) => item.id.toString()}
-                    renderItem={(itemData) => (
-                        <DocumentItem
-                            id={itemData.item.id}
-                            label={itemData.item.label}
-                            pdfUri={itemData.item.pdfUri}
-                        />
-                    )}
-                />
-            </View>
+            <FlatList
+                showsVerticalScrollIndicator={false}
+                data={documents}
+                keyExtractor={(item) => item.id.toString()}
+                renderItem={(itemData) => (
+                    <DocumentItem
+                        id={itemData.item.id}
+                        label={itemData.item.label}
+                        pdfUri={itemData.item.pdfUri}
+                    />
+                )}
+            />
         </View>
     );
 };

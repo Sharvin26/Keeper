@@ -6,16 +6,17 @@ import {
     removeDocument,
 } from "../../database/documentsDb";
 
-export const GET_PDF = "GET_PDF";
-export const ADD_PDF = "ADD_PDF";
+export const GET_DOCUMENTS = "GET_DOCUMENTS";
+export const ADD_DOCUMENT = "ADD_DOCUMENT";
 export const DELETE_DOCUMENT = "DELETE_DOCUMENT";
+export const SEARCH_DOCUMENTS = "SEARCH_DOCUMENTS";
 
 export const getDocument = () => {
     return async (dispatch) => {
         try {
             const dbResult = await fetchDocument();
             dispatch({
-                type: GET_PDF,
+                type: GET_DOCUMENTS,
                 documents: dbResult.rows._array,
             });
         } catch (error) {
@@ -36,7 +37,7 @@ export const addDocument = (label, uri, date) => {
             });
             const dbResult = await insertDocument(label, newPath, newDate);
             dispatch({
-                type: ADD_PDF,
+                type: ADD_DOCUMENT,
                 document: {
                     id: dbResult.insertId,
                     label,
@@ -50,7 +51,7 @@ export const addDocument = (label, uri, date) => {
     };
 };
 
-export const deleteDocuments = (id) => {
+export const deleteDocument = (id) => {
     return async (dispatch) => {
         try {
             await removeDocument(id);
@@ -63,4 +64,12 @@ export const deleteDocuments = (id) => {
             throw error;
         }
     };
+};
+
+export const searchDocuments = (value) => {
+    return async (dispatch) =>
+        dispatch({
+            type: SEARCH_DOCUMENTS,
+            value,
+        });
 };
