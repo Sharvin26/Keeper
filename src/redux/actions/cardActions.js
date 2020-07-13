@@ -10,6 +10,7 @@ export const GET_CARDS = "GET_CARDS";
 export const ADD_CARD = "ADD_CARD";
 export const UPDATE_CARD = "UPDATE_CARD";
 export const DELETE_CARD = "DELETE_CARD";
+export const SEARCH_CARD = "SEARCH_CARD";
 
 export const getCards = () => {
     return async (dispatch) => {
@@ -101,4 +102,8 @@ export const deleteCard = (id) => {
             throw error;
         }
     };
+};
+
+export const searchCards = (value) => {
+    return async (dispatch) => dispatch({ type: SEARCH_CARD, value });
 };

@@ -8,7 +8,8 @@ import {
 } from "../actions/momentActions";
 import Moment from "../../models/Moment";
 import sortDocs from "../../helpers/customSort";
-var _ = require("lodash");
+import { searchMoments } from "../../helpers/customSearch";
+// var _ = require("lodash");
 
 const initialState = {
     moments: [],
@@ -64,17 +65,17 @@ export default (state = initialState, action) => {
                 ),
             };
         case SEARCH_MOMENTS:
-            const filteredMoments = _.filter(state.moments, (moment) =>
-                _.toLower(moment.title).includes(_.toLower(action.value))
-            );
-            let searchResult = "available";
-            if (filteredMoments.length === 0) {
-                searchResult = "empty";
-            }
+            // const filteredMoments = _.filter(state.moments, (moment) =>
+            //     _.toLower(moment.title).includes(_.toLower(action.value))
+            // );
+            // let searchResult = "available";
+            // if (filteredMoments.length === 0) {
+            //     searchResult = "empty";
+            // }
+            const filteredMoments = searchMoments(state.moments, action.value);
             return {
                 ...state,
                 searchMoments: filteredMoments,
-                searchResult,
             };
         case SORT_MOMENTS:
             const allDocs = [...state.moments];

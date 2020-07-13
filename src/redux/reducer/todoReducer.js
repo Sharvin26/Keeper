@@ -4,11 +4,14 @@ import {
     ADD_TODO,
     UPDATE_TODO,
     DELETE_TODO,
+    SEARCH_TODOS,
 } from "../actions/todoActions";
+import { searchTodos } from "../../helpers/customSearch";
 import sort from "../../helpers/customSort";
 
 const initialState = {
     todos: [],
+    searchTodos: [],
 };
 
 export default (state = initialState, action) => {
@@ -49,6 +52,12 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 todos: state.todos.filter((todo) => todo.id !== action.id),
+            };
+        case SEARCH_TODOS:
+            const filteredTodos = searchTodos(state.todos, action.value);
+            return {
+                ...state,
+                searchTodos: filteredTodos,
             };
         default:
             return state;

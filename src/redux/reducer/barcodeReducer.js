@@ -1,14 +1,17 @@
-import Barcode from "../../models/Barcode";
-import sortDocs from "../../helpers/customSort";
-
 import {
     GET_BARCODE_DOCUMENT,
     ADD_BARCODE_DOCUMENT,
     DELETE_BARCODE_DOCUMENT,
+    SEARCH_BARCODE_DOCUMENT,
 } from "../actions/barcodeActions";
+
+import Barcode from "../../models/Barcode";
+import { searchBarcodeDocuments } from "../../helpers/customSearch";
+import sortDocs from "../../helpers/customSort";
 
 const initialState = {
     barcodeDocuments: [],
+    searchBarcodeDocuments: [],
 };
 
 export default (state = initialState, action) => {
@@ -39,6 +42,15 @@ export default (state = initialState, action) => {
                 barcodeDocuments: state.barcodeDocuments.filter(
                     (barcodeItem) => barcodeItem.id !== action.id
                 ),
+            };
+        case SEARCH_BARCODE_DOCUMENT:
+            const filteredBarcodeDocuments = searchBarcodeDocuments(
+                state.barcodeDocuments,
+                action.value
+            );
+            return {
+                ...state,
+                searchBarcodeDocuments: filteredBarcodeDocuments,
             };
         default:
             return state;

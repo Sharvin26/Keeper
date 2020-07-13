@@ -4,11 +4,14 @@ import {
     ADD_CARD,
     UPDATE_CARD,
     DELETE_CARD,
+    SEARCH_CARD,
 } from "../actions/cardActions";
+import { searchCards } from "../../helpers/customSearch";
 import sortCards from "../../helpers/customSort";
 
 const initialState = {
     cards: [],
+    searchCards: [],
 };
 
 export default (state = initialState, action) => {
@@ -53,6 +56,12 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 cards: state.cards.filter((card) => card.id !== action.id),
+            };
+        case SEARCH_CARD:
+            const filteredCards = searchCards(state.cards, action.value);
+            return {
+                ...state,
+                searchCards: filteredCards,
             };
         default:
             return state;
