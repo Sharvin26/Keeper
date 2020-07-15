@@ -104,6 +104,7 @@ const SearchScreen = (props) => {
                     setSearchCategory(BARCODE_DOCUMENTS);
                     searchRef.current.focus();
                 } else if (buttonIndex === 6) {
+                    props.navigation.goBack();
                     setSearchCategory();
                 }
             }
@@ -182,8 +183,8 @@ const SearchScreen = (props) => {
                     ref={searchRef}
                     placeholder={
                         searchData && searchData.length > 0
-                            ? "Start typing here to search..."
-                            : "Nothing added yet for this category yet."
+                            ? `Type here to search in ${searchCategory}`
+                            : `Nothing added yet in this category.`
                     }
                     style={styles.textInput}
                     key={searchCategory === CARDS ? "Cards" : "Other"}
